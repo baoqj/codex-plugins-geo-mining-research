@@ -28,6 +28,7 @@ GeoMine Research is a Codex plugin for Canada-first geoscience and mining resear
 skills/
 references/
 scripts/geomine/
+scripts/geomine/adapters/
 tests/
 examples/
 README.md
@@ -72,8 +73,8 @@ If using a repository-local marketplace rooted at `openminer/plugins/Code`, the 
 ## Development Commands
 
 ```bash
-python scripts/validate_plugin.py
-python -m pytest
+python3 scripts/validate_plugin.py
+PYTHONPATH=scripts uv run --no-project --with pytest python -m pytest
 ```
 
 ## Safety Boundary
@@ -82,6 +83,11 @@ This output is for research assistance only. It is not legal advice, investment 
 
 ## Roadmap
 
-- v0.2: MCP roadmap and real adapters for CDoGS, Geo.ca, MINFILE, OGSEarth, USGS, and EarthChem using fixtures and provenance-first caching.
+- v0.2: MCP roadmap, adapter/MCP design, and deterministic adapter URL builders/parsers for Open Canada, BC Data Catalogue, and ArcGIS REST.
+- v0.2.1: CDoGS, OGSEarth, and EarthChem fixture parsers, still without default live network tests.
 - v0.3: lightweight prospectivity modeling helpers with spatial cross-validation guidance.
 - v0.4: deeper NI 43-101 review workflows and technical-report evidence extraction.
+
+## MCP Roadmap
+
+See [references/mcp-roadmap.md](references/mcp-roadmap.md) and [references/adapter-mcp-design.md](references/adapter-mcp-design.md). The plugin still does not declare `.mcp.json`; that should be added only after a working MCP server and contract tests exist.

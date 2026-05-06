@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added v0.2 MCP roadmap and adapter/MCP design references.
+- Added deterministic adapter skeletons for CKAN package search and ArcGIS REST FeatureSet parsing.
+- Added adapter source registry and fixture-only adapter tests.
+
 ## 0.1.0
 
 - Created GeoMine Research Codex plugin MVP.
