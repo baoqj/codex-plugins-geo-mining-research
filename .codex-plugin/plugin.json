@@ -1,0 +1,40 @@
+{
+  "name": "geo-mining-research",
+  "version": "0.1.0",
+  "description": "Academic geoscience/mining research workflows with routing and evidence synthesis across GIS, geochemistry, mineral occurrences, deposit models, and Canadian disclosure boundaries.",
+  "author": {
+    "name": "OpenMine.VIP"
+  },
+  "homepage": "https://openmine.vip",
+  "license": "Proprietary",
+  "keywords": [
+    "gis",
+    "geochemistry",
+    "mineral-exploration",
+    "mining",
+    "canada",
+    "ni-43-101",
+    "cim",
+    "evidence-synthesis"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GeoMine Research",
+    "shortDescription": "GIS, geochemistry, and mining research synthesis for Canada-first workflows.",
+    "longDescription": "Routes open-ended geoscience and mining research questions to focused skills, normalizes AOIs, commodities, deposit models and jurisdictions, preserves source provenance, and produces evidence-backed Markdown research briefs with Canadian NI 43-101 and CIM terminology boundaries.",
+    "developerName": "OpenMine.VIP",
+    "category": "Research",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://openmine.vip",
+    "defaultPrompt": [
+      "Screen a BC AOI for porphyry Cu-Mo evidence.",
+      "Evaluate an Ontario claim block for LCT pegmatite potential.",
+      "Review NI 43-101 terminology and evidence gaps."
+    ],
+    "brandColor": "#256D4D"
+  }
+}
