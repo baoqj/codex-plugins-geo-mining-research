@@ -28,6 +28,7 @@ REQUIRED_FILES = [
     "references/output-contracts.md",
     "references/mcp-roadmap.md",
     "references/adapter-mcp-design.md",
+    "references/runnable-mcp-server-build-guide.md",
     "scripts/geomine/evidence_schema.py",
     "scripts/geomine/data_sources.py",
     "scripts/geomine/aoi.py",

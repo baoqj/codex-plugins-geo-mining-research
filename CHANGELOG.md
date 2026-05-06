@@ -5,6 +5,7 @@
 - Added v0.2 MCP roadmap and adapter/MCP design references.
 - Added deterministic adapter skeletons for CKAN package search and ArcGIS REST FeatureSet parsing.
 - Added adapter source registry and fixture-only adapter tests.
+- Added a runnable MCP server build guide with implementation order, local Codex config, Inspector testing, and plugin bundling steps.
 
 ## 0.1.0
 

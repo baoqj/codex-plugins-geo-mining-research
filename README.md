@@ -90,4 +90,4 @@ This output is for research assistance only. It is not legal advice, investment 
 
 ## MCP Roadmap
 
-See [references/mcp-roadmap.md](references/mcp-roadmap.md) and [references/adapter-mcp-design.md](references/adapter-mcp-design.md). The plugin still does not declare `.mcp.json`; that should be added only after a working MCP server and contract tests exist.
+See [references/mcp-roadmap.md](references/mcp-roadmap.md), [references/adapter-mcp-design.md](references/adapter-mcp-design.md), and [references/runnable-mcp-server-build-guide.md](references/runnable-mcp-server-build-guide.md). The plugin still does not declare `.mcp.json`; that should be added only after a working MCP server and contract tests exist.
