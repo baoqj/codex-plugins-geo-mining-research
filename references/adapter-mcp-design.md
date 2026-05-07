@@ -28,8 +28,9 @@ scripts/geomine/adapters/cdogs.py
 scripts/geomine/adapters/bc_minfile.py
 scripts/geomine/adapters/ogsearth.py
 scripts/geomine/adapters/earthchem.py
-scripts/geomine_mcp_server.py
 ```
+
+The v0.2 pre-activation implementation already includes `scripts/geomine/tools.py` and `scripts/geomine_mcp_server.py`. They remain unbundled until `.mcp.json` activation is tested.
 
 ## Shared Adapter Contract
 

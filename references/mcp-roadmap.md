@@ -7,8 +7,8 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 - v0.1 packages skills, references, examples, validation, and deterministic helper scripts.
 - v0.1 does not perform live retrieval.
 - v0.1 does not declare MCP servers.
-- v0.2 should introduce adapter modules that can build real requests, parse real responses, and preserve provenance.
-- v0.2 may still defer MCP server activation until the adapter layer is stable.
+- v0.2 pre-activation introduces adapter modules, pure MCP tool functions, and a local STDIO server entrypoint.
+- v0.2 pre-activation still defers `.mcp.json` and plugin manifest activation until Inspector/Codex smoke tests pass.
 
 ## Official Codex Constraints
 
@@ -116,14 +116,16 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 
 ## MCP Server Shape
 
-When adapter tests are stable, introduce:
+The pre-activation code now includes the server entrypoint and adapters, but not `.mcp.json`:
 
 ```text
-.mcp.json
 scripts/geomine_mcp_server.py
+scripts/geomine/tools.py
 scripts/geomine/adapters/
 tests/test_mcp_contract.py
 ```
+
+Add `.mcp.json` only after Inspector and Codex smoke tests pass.
 
 Proposed server name:
 

@@ -53,7 +53,7 @@ Keep these boundaries:
 
 Use the official MCP Python SDK and FastMCP because the repository is already Python-based and the official SDK supports Python as a Tier 1 SDK.
 
-Add dependencies to `pyproject.toml` when implementation begins:
+The v0.2 pre-activation implementation adds these dependencies to `pyproject.toml`:
 
 ```toml
 [project]
@@ -80,7 +80,7 @@ PYTHONPATH=scripts uv run --no-project --with pytest --with "mcp[cli]" --with ht
 
 ## 4. Implement Pure Tool Functions First
 
-Create `scripts/geomine/tools.py`. These functions should not import MCP. That keeps the business logic testable.
+`scripts/geomine/tools.py` contains the pure tool layer. These functions do not import MCP, which keeps the business logic testable.
 
 Recommended function shape:
 
@@ -212,7 +212,7 @@ Method:
 
 ## 9. Create The MCP Server Entrypoint
 
-Create `scripts/geomine_mcp_server.py`:
+`scripts/geomine_mcp_server.py` is the MCP server entrypoint:
 
 ```python
 from __future__ import annotations
@@ -300,7 +300,7 @@ Important STDIO rule: do not print logs to stdout. Use stderr or a logging handl
 
 ## 10. Add Tests
 
-Create `tests/test_mcp_tools.py`:
+`tests/test_mcp_tools.py` covers the direct pure-tool contract:
 
 ```python
 from geomine.tools import resolve_aoi_tool, search_geodata_sources_tool
@@ -320,7 +320,7 @@ def test_search_geodata_sources_planned_mode():
     assert "Network disabled" in " ".join(result["warnings"])
 ```
 
-Create `tests/test_mcp_server_import.py`:
+`tests/test_mcp_server_import.py` covers server import:
 
 ```python
 import geomine_mcp_server

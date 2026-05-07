@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Implemented the first runnable v0.2 pre-activation MCP server entrypoint and pure tool layer without plugin manifest activation.
+- Updated the helper package to `0.2.0` with `mcp[cli]` and `httpx` dependencies plus a `geomine-mcp` script.
 - Added v0.2 MCP roadmap and adapter/MCP design references.
 - Added deterministic adapter skeletons for CKAN package search and ArcGIS REST FeatureSet parsing.
 - Added adapter source registry and fixture-only adapter tests.

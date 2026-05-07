@@ -29,6 +29,7 @@ skills/
 references/
 scripts/geomine/
 scripts/geomine/adapters/
+scripts/geomine_mcp_server.py
 tests/
 examples/
 README.md
@@ -74,7 +75,7 @@ If using a repository-local marketplace rooted at `openminer/plugins/Code`, the 
 
 ```bash
 python3 scripts/validate_plugin.py
-PYTHONPATH=scripts uv run --no-project --with pytest python -m pytest
+PYTHONPATH=scripts uv run --no-project --with pytest --with "mcp[cli]>=1.2.0" --with "httpx>=0.28.0" python -m pytest
 ```
 
 ## Safety Boundary

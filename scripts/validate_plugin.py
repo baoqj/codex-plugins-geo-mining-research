@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Validate the GeoMine Research Codex plugin MVP."""
+"""Validate the GeoMine Research Codex plugin package."""
 
 from __future__ import annotations
 
 import json
 import sys
 from pathlib import Path
+import tomllib
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,11 +36,15 @@ REQUIRED_FILES = [
     "scripts/geomine/geochem.py",
     "scripts/geomine/occurrences.py",
     "scripts/geomine/reports.py",
+    "scripts/geomine/tools.py",
+    "scripts/geomine_mcp_server.py",
     "scripts/geomine/adapters/__init__.py",
     "scripts/geomine/adapters/base.py",
     "scripts/geomine/adapters/ckan.py",
     "scripts/geomine/adapters/arcgis.py",
     "scripts/geomine/adapters/source_registry.py",
+    "tests/test_mcp_tools.py",
+    "tests/test_mcp_server_import.py",
     "README.md",
     "AGENTS.md",
     "CHANGELOG.md",
@@ -58,17 +63,36 @@ def _failures() -> list[str]:
     if manifest.get("name") != "geo-mining-research":
         errors.append("manifest name must be geo-mining-research")
     if manifest.get("version") != "0.1.0":
-        errors.append("manifest version must be 0.1.0")
+        errors.append("pre-activation plugin manifest version must remain 0.1.0")
     if manifest.get("skills") != "./skills/":
         errors.append("manifest skills must be ./skills/")
     if "mcpServers" in manifest:
-        errors.append("v0.1 must not declare mcpServers")
+        errors.append("pre-activation plugin manifest must not declare mcpServers")
     if manifest.get("interface", {}).get("displayName") != "GeoMine Research":
         errors.append("interface.displayName must be GeoMine Research")
 
     for rel_path in REQUIRED_FILES:
         if not (ROOT / rel_path).exists():
             errors.append(f"missing required file: {rel_path}")
+
+    pyproject_path = ROOT / "pyproject.toml"
+    if pyproject_path.exists():
+        try:
+            pyproject = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
+        except tomllib.TOMLDecodeError as exc:
+            errors.append(f"invalid pyproject.toml: {exc}")
+        else:
+            project = pyproject.get("project", {})
+            dependencies = set(project.get("dependencies", []))
+            if project.get("version") != "0.2.0":
+                errors.append("pyproject version must be 0.2.0 for MCP pre-activation package")
+            if "mcp[cli]>=1.2.0" not in dependencies:
+                errors.append("pyproject dependencies must include mcp[cli]>=1.2.0")
+            if "httpx>=0.28.0" not in dependencies:
+                errors.append("pyproject dependencies must include httpx>=0.28.0")
+            scripts = project.get("scripts", {})
+            if scripts.get("geomine-mcp") != "geomine_mcp_server:main":
+                errors.append("pyproject must expose geomine-mcp = geomine_mcp_server:main")
 
     for skill_name in REQUIRED_SKILLS:
         skill_path = ROOT / "skills" / skill_name / "SKILL.md"
