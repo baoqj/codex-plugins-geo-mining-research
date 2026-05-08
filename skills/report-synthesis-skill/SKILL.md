@@ -57,6 +57,8 @@ Every output must include:
 - Separate source recommendations from retrieved evidence.
 - Preserve evidence grade and uncertainty.
 - Use cautious language for inferred target potential.
+- Every output that uses MCP data must include source name, source URL or catalog id, retrieved time, CRS when available, scale or resolution when available, license, limitations, and whether the evidence came from MCP, user file, static reference, or model inference.
+- AOI screening and due-diligence outputs should include the evidence matrix format from `references/evidence-matrix-template.md`.
 
 ## Guardrails And Limitations
 

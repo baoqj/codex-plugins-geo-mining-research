@@ -1,6 +1,6 @@
 # Real Data Adapter And MCP Design
 
-This document defines the engineering boundary for real GeoMine Research data access. The adapter layer comes first. MCP activation comes after adapters are stable enough to expose to Codex.
+This document defines the engineering boundary for real GeoMine Research data access. v0.2 exposes deterministic MCP tools through the local `geomine` stdio server; future live adapters must still be added behind explicit network flags and fixture-backed tests.
 
 ## Design Principles
 
@@ -30,7 +30,7 @@ scripts/geomine/adapters/ogsearth.py
 scripts/geomine/adapters/earthchem.py
 ```
 
-The v0.2 pre-activation implementation already includes `scripts/geomine/tools.py` and `scripts/geomine_mcp_server.py`. They remain unbundled until `.mcp.json` activation is tested.
+The v0.2 implementation includes `scripts/geomine/tools.py`, `scripts/geomine_mcp_server.py`, and plugin-root `.mcp.json`. The exposed tools currently return deterministic planning/provenance records unless a bounded live adapter is implemented.
 
 ## Shared Adapter Contract
 
@@ -87,11 +87,16 @@ Each result should include source, title, record id, URL, formats, license, juri
 
 ## MCP Tool Mapping
 
-- `search_geodata_sources` -> CKAN adapters and source registry.
-- `fetch_geochem_metadata` -> CDoGS and USGS geochemical adapters.
-- `search_mineral_occurrences` -> BC MINFILE, OMI, and USGS ArcGIS adapters.
-- `resolve_aoi` -> local AOI normalizer.
-- `retrieve_assessment_reports` -> future provincial report adapters.
+- `normalize_aoi` -> local AOI normalizer.
+- `search_canada_geodata` -> source registry plus future Open Canada / Geo.ca / BC Data Catalogue CKAN adapters.
+- `search_cdogs_surveys` -> future CDoGS metadata and geochemical survey parsers.
+- `search_bc_minfile` -> future BC Data Catalogue and MINFILE occurrence parser.
+- `search_ontario_omi` -> future OGSEarth KML and OMI metadata parser.
+- `search_saskatchewan_mineral_data` -> future Saskatchewan public mineral data adapters.
+- `fetch_dataset_metadata` -> local source registry.
+- `summarize_dataset_provenance` -> provenance-normalization helper.
+- `query_claim_neighbors` -> future provincial tenure adapters.
+- `calculate_infrastructure_distance` -> future infrastructure layer adapters and spatial calculators.
 
 ## Error Model
 
@@ -118,13 +123,19 @@ The adapter package may include URL builders and parsers now. A future live clie
 - expose source URLs and retrieval timestamps
 - keep live integration tests behind `GEOMINE_RUN_LIVE_TESTS=1`
 
-## MCP Activation Checklist
+## MCP Activation Status
 
-Before adding `.mcp.json`:
+Completed in v0.2:
 
-1. Implement at least one complete adapter with live integration tests.
-2. Implement `scripts/geomine_mcp_server.py`.
-3. Add fixture and contract tests for every exposed tool.
-4. Update `.codex-plugin/plugin.json` with `"mcpServers": "./.mcp.json"`.
-5. Update README with install, run, and network-disable instructions.
-6. Confirm `python3 scripts/validate_plugin.py` and `python3 -m pytest` pass.
+1. Implemented `scripts/geomine_mcp_server.py`.
+2. Added pure tool wrappers and contract tests for every exposed MCP tool.
+3. Added plugin-root `.mcp.json` and updated `.codex-plugin/plugin.json` with `"mcpServers": "./.mcp.json"`.
+4. Updated README and `MCP_SETUP.md` with install, run, and network-disable instructions.
+5. Confirmed `python3 scripts/validate_plugin.py`, MCP JSON parsing, pytest, and stdio smoke tests pass.
+
+Future live-adapter activation still requires:
+
+1. Fixture-backed parsers for each source-specific adapter.
+2. Opt-in live integration tests behind `GEOMINE_RUN_LIVE_TESTS=1`.
+3. Bounded HTTP clients with cache, timeout, user-agent, source URL, and retrieval timestamp.
+4. Clear unsupported states where a source has no confirmed stable public API.

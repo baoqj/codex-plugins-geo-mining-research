@@ -11,6 +11,7 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_SKILLS = [
+    "geomine-research-router-skill",
     "research-router-skill",
     "aoi-crs-normalizer-skill",
     "geodata-discovery-skill",
@@ -22,8 +23,12 @@ REQUIRED_SKILLS = [
 ]
 REQUIRED_FILES = [
     ".codex-plugin/plugin.json",
+    ".mcp.json",
+    "MCP_SETUP.md",
     "references/data-sources-canada.md",
     "references/evidence-grading.md",
+    "references/entity-schema.md",
+    "references/evidence-matrix-template.md",
     "references/deposit-model-cheatsheet.md",
     "references/ni43-101-cim-boundary.md",
     "references/output-contracts.md",
@@ -38,6 +43,7 @@ REQUIRED_FILES = [
     "scripts/geomine/reports.py",
     "scripts/geomine/tools.py",
     "scripts/geomine_mcp_server.py",
+    "scripts/run_mcp_sample_cases.py",
     "scripts/geomine/adapters/__init__.py",
     "scripts/geomine/adapters/base.py",
     "scripts/geomine/adapters/ckan.py",
@@ -49,6 +55,18 @@ REQUIRED_FILES = [
     "AGENTS.md",
     "CHANGELOG.md",
     "pyproject.toml",
+]
+EXPECTED_MCP_TOOLS = [
+    "normalize_aoi",
+    "search_canada_geodata",
+    "search_cdogs_surveys",
+    "search_bc_minfile",
+    "search_ontario_omi",
+    "search_saskatchewan_mineral_data",
+    "fetch_dataset_metadata",
+    "summarize_dataset_provenance",
+    "query_claim_neighbors",
+    "calculate_infrastructure_distance",
 ]
 
 
@@ -62,14 +80,37 @@ def _failures() -> list[str]:
 
     if manifest.get("name") != "geo-mining-research":
         errors.append("manifest name must be geo-mining-research")
-    if manifest.get("version") != "0.1.0":
-        errors.append("pre-activation plugin manifest version must remain 0.1.0")
+    if manifest.get("version") != "0.2.0":
+        errors.append("manifest version must be 0.2.0")
     if manifest.get("skills") != "./skills/":
         errors.append("manifest skills must be ./skills/")
-    if "mcpServers" in manifest:
-        errors.append("pre-activation plugin manifest must not declare mcpServers")
+    if manifest.get("mcpServers") != "./.mcp.json":
+        errors.append("manifest mcpServers must be ./.mcp.json")
     if manifest.get("interface", {}).get("displayName") != "GeoMine Research":
         errors.append("interface.displayName must be GeoMine Research")
+
+    mcp_path = ROOT / ".mcp.json"
+    if mcp_path.exists():
+        try:
+            mcp_config = json.loads(mcp_path.read_text(encoding="utf-8"))
+        except Exception as exc:  # noqa: BLE001 - validation should report context.
+            errors.append(f"Cannot read .mcp.json: {exc}")
+        else:
+            geomine = mcp_config.get("geomine")
+            if not isinstance(geomine, dict):
+                errors.append(".mcp.json must define a geomine server")
+            else:
+                if geomine.get("command") != "uv":
+                    errors.append(".mcp.json geomine.command must be uv")
+                if "--no-project" not in geomine.get("args", []):
+                    errors.append(".mcp.json geomine.args must include --no-project")
+                if geomine.get("enabled") is not True:
+                    errors.append(".mcp.json geomine.enabled must be true")
+                if geomine.get("required") is not False:
+                    errors.append(".mcp.json geomine.required must be false")
+                enabled_tools = geomine.get("enabled_tools")
+                if enabled_tools != EXPECTED_MCP_TOOLS:
+                    errors.append(".mcp.json enabled_tools must match expected GeoMine MCP tools")
 
     for rel_path in REQUIRED_FILES:
         if not (ROOT / rel_path).exists():
@@ -85,7 +126,7 @@ def _failures() -> list[str]:
             project = pyproject.get("project", {})
             dependencies = set(project.get("dependencies", []))
             if project.get("version") != "0.2.0":
-                errors.append("pyproject version must be 0.2.0 for MCP pre-activation package")
+                errors.append("pyproject version must be 0.2.0")
             if "mcp[cli]>=1.2.0" not in dependencies:
                 errors.append("pyproject dependencies must include mcp[cli]>=1.2.0")
             if "httpx>=0.28.0" not in dependencies:

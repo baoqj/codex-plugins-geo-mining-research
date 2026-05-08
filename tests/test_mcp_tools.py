@@ -1,13 +1,24 @@
 from geomine.tools import (
     fetch_geochem_metadata_tool,
+    calculate_infrastructure_distance_tool,
+    fetch_dataset_metadata_mcp_tool,
+    normalize_aoi_tool,
+    query_claim_neighbors_tool,
     resolve_aoi_tool,
     retrieve_assessment_reports_tool,
+    search_bc_minfile_tool,
+    search_canada_geodata_tool,
+    search_cdogs_surveys_tool,
     search_geodata_sources_tool,
     search_mineral_occurrences_tool,
+    search_ontario_omi_tool,
+    search_saskatchewan_mineral_data_tool,
+    summarize_dataset_provenance_tool,
 )
 
 
 EXPECTED_CONTRACT = {"data", "provenance", "warnings", "next_steps"}
+EXPECTED_PRD_CONTRACT = {"ok", "tool", "query", "provenance", "warnings", "next_steps"}
 
 
 def assert_contract(result: dict):
@@ -17,6 +28,17 @@ def assert_contract(result: dict):
     assert isinstance(result["warnings"], list)
     assert isinstance(result["next_steps"], list)
     assert result["provenance"]["tool_layer"] == "scripts/geomine/tools.py"
+    assert result["provenance"]["retrieved_at"]
+
+
+def assert_prd_contract(result: dict, tool: str):
+    assert EXPECTED_PRD_CONTRACT.issubset(result)
+    assert result["ok"] is True
+    assert result["tool"] == tool
+    assert isinstance(result["query"], dict)
+    assert isinstance(result["provenance"], dict)
+    assert isinstance(result["warnings"], list)
+    assert isinstance(result["next_steps"], list)
     assert result["provenance"]["retrieved_at"]
 
 
@@ -127,3 +149,39 @@ def test_retrieve_assessment_reports_planned_mode():
     assert result["provenance"]["retrieval_status"] == "planned"
     assert result["data"]["reports"] == []
     assert result["data"]["planned_sources"]
+
+
+def test_prd_mcp_tool_contracts():
+    sample_results = [
+        normalize_aoi_tool("Athabasca Basin margin, Saskatchewan"),
+        search_canada_geodata_tool("uranium geochemistry", province="Saskatchewan"),
+        search_cdogs_surveys_tool(province="Saskatchewan", commodity="uranium"),
+        search_bc_minfile_tool(commodity="copper"),
+        search_ontario_omi_tool(commodity="lithium"),
+        search_saskatchewan_mineral_data_tool(commodity="uranium"),
+        fetch_dataset_metadata_mcp_tool("nrcan-cdogs"),
+        summarize_dataset_provenance_tool({"name": "CDoGS", "url": "https://geochem.nrcan.gc.ca/"}),
+        query_claim_neighbors_tool("SK-EXAMPLE-001"),
+        calculate_infrastructure_distance_tool("Athabasca Basin margin", "road"),
+    ]
+    expected_tools = [
+        "normalize_aoi",
+        "search_canada_geodata",
+        "search_cdogs_surveys",
+        "search_bc_minfile",
+        "search_ontario_omi",
+        "search_saskatchewan_mineral_data",
+        "fetch_dataset_metadata",
+        "summarize_dataset_provenance",
+        "query_claim_neighbors",
+        "calculate_infrastructure_distance",
+    ]
+    for result, tool in zip(sample_results, expected_tools, strict=True):
+        assert_prd_contract(result, tool)
+
+
+def test_prd_network_requests_are_not_fabricated():
+    result = search_canada_geodata_tool("uranium geochemistry", province="Saskatchewan", allow_network=True)
+    assert_prd_contract(result, "search_canada_geodata")
+    assert result["provenance"]["retrieval_status"] == "unsupported"
+    assert result["provenance"]["network"] == "requested-but-not-implemented"

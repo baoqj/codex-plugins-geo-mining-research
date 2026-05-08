@@ -1,7 +1,7 @@
 {
   "name": "geo-mining-research",
-  "version": "0.1.0",
-  "description": "Academic geoscience/mining research workflows with routing and evidence synthesis across GIS, geochemistry, mineral occurrences, deposit models, and Canadian disclosure boundaries.",
+  "version": "0.2.0",
+  "description": "Academic geoscience and mining research-router plugin with MCP data tools, evidence lanes, entity normalization, and Canadian mining disclosure boundaries.",
   "author": {
     "name": "OpenMine.VIP"
   },
@@ -15,13 +15,16 @@
     "canada",
     "ni-43-101",
     "cim",
-    "evidence-synthesis"
+    "evidence-synthesis",
+    "research-router",
+    "mcp"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "GeoMine Research",
-    "shortDescription": "GIS, geochemistry, and mining research synthesis for Canada-first workflows.",
-    "longDescription": "Routes open-ended geoscience and mining research questions to focused skills, normalizes AOIs, commodities, deposit models and jurisdictions, preserves source provenance, and produces evidence-backed Markdown research briefs with Canadian NI 43-101 and CIM terminology boundaries.",
+    "shortDescription": "GIS + geochemistry + mineral exploration research with MCP data tools.",
+    "longDescription": "Routes open-ended geoscience and mining questions to specialized evidence lanes, normalizes AOIs, commodities, deposit models, jurisdictions, datasets, companies, claims, and technical-disclosure entities, and produces structured research briefs, evidence matrices, data gaps, and machine-readable summaries.",
     "developerName": "OpenMine.VIP",
     "category": "Research",
     "capabilities": [
@@ -31,9 +34,9 @@
     ],
     "websiteURL": "https://openmine.vip",
     "defaultPrompt": [
-      "Screen a BC AOI for porphyry Cu-Mo evidence.",
+      "Screen a Saskatchewan AOI for uranium potential using GeoMine evidence lanes.",
       "Evaluate an Ontario claim block for LCT pegmatite potential.",
-      "Review NI 43-101 terminology and evidence gaps."
+      "Review NI 43-101 terminology, evidence gaps, and disclosure caveats."
     ],
     "brandColor": "#256D4D"
   }

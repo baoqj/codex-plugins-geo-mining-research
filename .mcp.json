@@ -1,0 +1,44 @@
+{
+  "geomine": {
+    "command": "uv",
+    "args": [
+      "--directory",
+      ".",
+      "run",
+      "--no-project",
+      "--with",
+      "mcp[cli]",
+      "--with",
+      "httpx",
+      "python",
+      "scripts/geomine_mcp_server.py"
+    ],
+    "env": {
+      "PYTHONPATH": "./scripts",
+      "GEOMINE_ALLOW_NETWORK_DEFAULT": "false"
+    },
+    "env_vars": [
+      "GEOMINE_CACHE_DIR",
+      "GEOMINE_DATA_DIR",
+      "GEOMINE_HTTP_TIMEOUT_SEC",
+      "GEOMINE_MAX_ROWS",
+      "GEOMINE_USER_AGENT"
+    ],
+    "startup_timeout_sec": 30,
+    "tool_timeout_sec": 120,
+    "enabled": true,
+    "required": false,
+    "enabled_tools": [
+      "normalize_aoi",
+      "search_canada_geodata",
+      "search_cdogs_surveys",
+      "search_bc_minfile",
+      "search_ontario_omi",
+      "search_saskatchewan_mineral_data",
+      "fetch_dataset_metadata",
+      "summarize_dataset_provenance",
+      "query_claim_neighbors",
+      "calculate_infrastructure_distance"
+    ]
+  }
+}

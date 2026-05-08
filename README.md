@@ -2,7 +2,7 @@
 
 GeoMine Research is a Codex plugin for Canada-first geoscience and mining research workflows. It routes broad questions into focused skills, normalizes AOIs and CRS assumptions, recommends public geodata sources, structures geochemical and mineral occurrence evidence, checks deposit-model fit, and assembles evidence-backed Markdown outputs.
 
-## MVP Scope
+## v0.1 MVP Baseline
 
 - Skill-only Codex plugin.
 - GIS and AOI normalization.
@@ -13,10 +13,16 @@ GeoMine Research is a Codex plugin for Canada-first geoscience and mining resear
 - NI 43-101 and CIM terminology risk flagging.
 - Markdown research synthesis.
 
+## v0.2 Current Scope
+
+- Research-router architecture aligned with the Life Science Research plugin pattern.
+- Plugin-root `.mcp.json` declaration for the local `geomine` stdio MCP server.
+- Ten deterministic MCP tools for AOI normalization, public-source discovery planning, provenance summaries, claim-neighbor planning, and infrastructure-distance planning.
+- MCP setup notes, entity schema, evidence matrix template, sample runner, and automated validation tests.
+
 ## Non-Goals
 
-- No live data adapters in v0.1.
-- No MCP server declaration in v0.1.
+- No default live data retrieval in v0.2; current MCP tools return provenance-preserving plans/static records unless a bounded adapter is later implemented.
 - No commercial database access.
 - No legal advice, investment advice, QP opinion, feasibility conclusion, resource validation, reserve estimate, or permitting decision.
 - No production prospectivity modeling.
@@ -25,11 +31,14 @@ GeoMine Research is a Codex plugin for Canada-first geoscience and mining resear
 
 ```text
 .codex-plugin/plugin.json
+.mcp.json
+MCP_SETUP.md
 skills/
 references/
 scripts/geomine/
 scripts/geomine/adapters/
 scripts/geomine_mcp_server.py
+scripts/run_mcp_sample_cases.py
 tests/
 examples/
 README.md
@@ -76,6 +85,7 @@ If using a repository-local marketplace rooted at `openminer/plugins/Code`, the 
 ```bash
 python3 scripts/validate_plugin.py
 PYTHONPATH=scripts uv run --no-project --with pytest --with "mcp[cli]>=1.2.0" --with "httpx>=0.28.0" python -m pytest
+PYTHONPATH=scripts python3 scripts/run_mcp_sample_cases.py ../../report
 ```
 
 ## Safety Boundary
@@ -91,4 +101,4 @@ This output is for research assistance only. It is not legal advice, investment 
 
 ## MCP Roadmap
 
-See [references/mcp-roadmap.md](references/mcp-roadmap.md), [references/adapter-mcp-design.md](references/adapter-mcp-design.md), and [references/runnable-mcp-server-build-guide.md](references/runnable-mcp-server-build-guide.md). The plugin still does not declare `.mcp.json`; that should be added only after a working MCP server and contract tests exist.
+See [MCP_SETUP.md](MCP_SETUP.md), [references/mcp-roadmap.md](references/mcp-roadmap.md), [references/adapter-mcp-design.md](references/adapter-mcp-design.md), and [references/runnable-mcp-server-build-guide.md](references/runnable-mcp-server-build-guide.md). The plugin now declares `.mcp.json` for the local `geomine` stdio server after automated tests and stdio smoke checks passed.

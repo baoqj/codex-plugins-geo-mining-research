@@ -41,6 +41,26 @@ Use this as the default entrypoint for broad or ambiguous GeoMine Research tasks
 6. If live data has not actually been queried, say that the output is a source plan or evidence framework, not a live data retrieval result.
 7. Hand final assembly to `report-synthesis-skill` or use its output contract.
 
+## MCP Usage
+
+When the user asks for live, external, or authoritative geoscience data, use the `geomine` MCP server when available.
+
+Use MCP tools for:
+
+- AOI normalization: `normalize_aoi`.
+- Canadian public geodata discovery: `search_canada_geodata`.
+- CDoGS geochemical survey lookup: `search_cdogs_surveys`.
+- BC MINFILE occurrence lookup: `search_bc_minfile`.
+- Ontario OMI / OGSEarth lookup: `search_ontario_omi`.
+- Saskatchewan public mineral data lookup: `search_saskatchewan_mineral_data`.
+- Dataset metadata and provenance: `fetch_dataset_metadata`, `summarize_dataset_provenance`.
+- Claim-neighbor scans: `query_claim_neighbors`.
+- Infrastructure distance planning: `calculate_infrastructure_distance`.
+
+MCP tools provide data access and deterministic operations. This skill remains responsible for geological interpretation, evidence grading, conflict handling, caveats, and synthesis.
+
+If the `geomine` MCP server is unavailable, report the missing MCP dependency and continue only with repository-local references or user-provided files.
+
 ## Output Contract
 
 Return Markdown with:

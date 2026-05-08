@@ -17,6 +17,7 @@ from geomine.adapters import (
     get_source_registry,
 )
 from geomine.aoi import normalize_aoi
+from geomine.data_sources import find_sources, list_sources
 
 
 DEFAULT_USER_AGENT = "GeoMineResearch/0.2 (+https://openmine.vip)"
@@ -65,6 +66,35 @@ def _base_result(
         "warnings": warnings or [],
         "next_steps": next_steps or [],
     }
+
+
+def _mcp_result(
+    tool: str,
+    query: dict[str, Any],
+    provenance: dict[str, Any],
+    result: dict[str, Any] | None = None,
+    results: list[dict[str, Any]] | None = None,
+    warnings: list[str] | None = None,
+    next_steps: list[str] | None = None,
+    ok: bool = True,
+) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "ok": ok,
+        "tool": tool,
+        "query": query,
+        "provenance": {
+            "tool_layer": "scripts/geomine/tools.py",
+            "retrieved_at": _now_iso(),
+            **provenance,
+        },
+        "warnings": warnings or [],
+        "next_steps": next_steps or [],
+    }
+    if result is not None:
+        payload["result"] = result
+    if results is not None:
+        payload["results"] = results
+    return payload
 
 
 def _adapter_info(adapter: Any) -> dict[str, str | None]:
@@ -401,5 +431,309 @@ def retrieve_assessment_reports_tool(
         next_steps=[
             "Implement jurisdiction-specific report metadata adapters before downloading files.",
             "Preserve report id, author, year, title, source URL, and access notes.",
+        ],
+    )
+
+
+def normalize_aoi_tool(aoi: str | dict[str, Any], default_crs: str = "EPSG:4326") -> dict[str, Any]:
+    input_data = dict(aoi) if isinstance(aoi, dict) else {"name": str(aoi), "crs": default_crs}
+    if "crs" not in input_data and default_crs:
+        input_data["crs"] = default_crs
+    normalized = resolve_aoi_tool(input_data)
+    return _mcp_result(
+        tool="normalize_aoi",
+        query={"aoi": aoi, "default_crs": default_crs},
+        result=normalized["data"],
+        provenance={
+            "source_name": "GeoMine MCP local AOI normalizer",
+            "source_url": None,
+            "retrieval_status": "parsed",
+            "network": "not-used",
+            "license": "internal",
+            "limitations": [
+                "No authoritative geocoding, claim lookup, NTS lookup, area calculation, or CRS transformation was performed."
+            ],
+        },
+        warnings=normalized["warnings"],
+        next_steps=normalized["next_steps"],
+    )
+
+
+def search_canada_geodata_tool(
+    query: str,
+    province: str | None = None,
+    commodity: str | None = None,
+    rows: int = 10,
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    geodata = search_geodata_sources_tool(
+        query=query,
+        jurisdiction=province,
+        data_type=commodity,
+        rows=rows,
+        allow_network=allow_network,
+    )
+    query_payload = {"query": query, "province": province, "commodity": commodity, "rows": rows, "allow_network": allow_network}
+    planned = geodata["data"].get("planned_requests", [])
+    registry_hits = [
+        item for item in get_source_registry()
+        if not province or province.lower() in item["jurisdiction"].lower() or item["jurisdiction"].lower() == "canada"
+    ]
+    return _mcp_result(
+        tool="search_canada_geodata",
+        query=query_payload,
+        results=[
+            {
+                "type": "planned_request",
+                **request,
+            }
+            for request in planned
+        ],
+        result={"registry_candidates": registry_hits},
+        provenance={
+            "source_name": "GeoMine MCP source registry + CKAN request planners",
+            "source_url": None,
+            "retrieval_status": geodata["provenance"]["retrieval_status"],
+            "network": geodata["provenance"]["network"],
+            "license": "mixed; verify per dataset",
+            "limitations": ["Planned catalogue requests are not evidence until fetched and parsed."],
+        },
+        warnings=geodata["warnings"],
+        next_steps=geodata["next_steps"],
+    )
+
+
+def search_cdogs_surveys_tool(
+    aoi: str | None = None,
+    commodity: str | None = None,
+    province: str | None = None,
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    metadata = fetch_geochem_metadata_tool(source="CDoGS", jurisdiction=province, allow_network=allow_network)
+    candidates = [item for item in get_source_registry() if item["key"] == "nrcan-cdogs"]
+    return _mcp_result(
+        tool="search_cdogs_surveys",
+        query={"aoi": aoi, "commodity": commodity, "province": province, "allow_network": allow_network},
+        results=candidates,
+        provenance={
+            "source_name": "NRCan CDoGS",
+            "source_url": "https://geochem.nrcan.gc.ca/cdogs/content/main/home_en.htm",
+            "retrieval_status": metadata["provenance"]["retrieval_status"],
+            "network": metadata["provenance"]["network"],
+            "license": "verify from source",
+            "limitations": ["CDoGS metadata is planned only in this MCP version; no live spatial filtering was performed."],
+        },
+        warnings=metadata["warnings"],
+        next_steps=metadata["next_steps"],
+    )
+
+
+def search_bc_minfile_tool(
+    aoi: str | None = None,
+    commodity: str | None = None,
+    rows: int = 10,
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    occurrences = search_mineral_occurrences_tool(
+        jurisdiction="British Columbia",
+        commodity=commodity,
+        rows=rows,
+        allow_network=allow_network,
+    )
+    return _mcp_result(
+        tool="search_bc_minfile",
+        query={"aoi": aoi, "commodity": commodity, "rows": rows, "allow_network": allow_network},
+        results=occurrences["data"]["planned_requests"],
+        provenance={
+            "source_name": "BC MINFILE / BC Data Catalogue",
+            "source_url": "https://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/british-columbia-geological-survey/mineralinventory",
+            "retrieval_status": occurrences["provenance"]["retrieval_status"],
+            "network": occurrences["provenance"]["network"],
+            "license": "verify from source",
+            "limitations": ["No live MINFILE record retrieval or AOI proximity calculation was performed."],
+        },
+        warnings=occurrences["warnings"],
+        next_steps=occurrences["next_steps"],
+    )
+
+
+def search_ontario_omi_tool(
+    aoi: str | None = None,
+    commodity: str | None = None,
+    rows: int = 10,
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    occurrences = search_mineral_occurrences_tool(
+        jurisdiction="Ontario",
+        commodity=commodity,
+        rows=rows,
+        allow_network=allow_network,
+    )
+    return _mcp_result(
+        tool="search_ontario_omi",
+        query={"aoi": aoi, "commodity": commodity, "rows": rows, "allow_network": allow_network},
+        results=occurrences["data"]["planned_requests"],
+        provenance={
+            "source_name": "Ontario Mineral Inventory / OGSEarth",
+            "source_url": "https://www.geologyontario.mndm.gov.on.ca/ogsearth.html",
+            "retrieval_status": occurrences["provenance"]["retrieval_status"],
+            "network": occurrences["provenance"]["network"],
+            "license": "verify from source",
+            "limitations": ["No live OMI/OGSEarth KML retrieval or AOI proximity calculation was performed."],
+        },
+        warnings=occurrences["warnings"],
+        next_steps=occurrences["next_steps"],
+    )
+
+
+def search_saskatchewan_mineral_data_tool(
+    aoi: str | None = None,
+    commodity: str | None = None,
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    retrieval_status = "unsupported" if allow_network or _network_default() else "planned"
+    network = "requested-but-not-implemented" if allow_network or _network_default() else "disabled"
+    return _mcp_result(
+        tool="search_saskatchewan_mineral_data",
+        query={"aoi": aoi, "commodity": commodity, "allow_network": allow_network},
+        results=[
+            {
+                "name": "Saskatchewan GeoAtlas / public geoscience data",
+                "status": "candidate_source",
+                "url": "https://gisappl.saskatchewan.ca/Html5Ext/index.html?viewer=GeoAtlas",
+                "relevance": "Regional mineral occurrence, geoscience, and infrastructure source discovery.",
+            }
+        ],
+        provenance={
+            "source_name": "Saskatchewan public geoscience data planner",
+            "source_url": "https://gisappl.saskatchewan.ca/Html5Ext/index.html?viewer=GeoAtlas",
+            "retrieval_status": retrieval_status,
+            "network": network,
+            "license": "verify from source",
+            "limitations": ["MVP planner only; live Saskatchewan GeoAtlas/ArcGIS querying is not implemented."],
+        },
+        warnings=[
+            "No live Saskatchewan mineral data query was performed.",
+            "Use source metadata to verify layer date, CRS, scale, and license before interpretation.",
+        ],
+        next_steps=[
+            "Implement Saskatchewan ArcGIS/GeoAtlas adapter with fixture tests.",
+            "Normalize layer provenance before combining with geochemistry or occurrence evidence.",
+        ],
+    )
+
+
+def fetch_dataset_metadata_mcp_tool(dataset_id: str) -> dict[str, Any]:
+    registry_match = [item for item in get_source_registry() if item["key"] == dataset_id]
+    static_match = [
+        item.as_dict()
+        for item in list_sources()
+        if dataset_id.lower() in item.name.lower() or dataset_id.lower() in item.jurisdiction.lower()
+    ]
+    return _mcp_result(
+        tool="fetch_dataset_metadata",
+        query={"dataset_id": dataset_id},
+        result={
+            "dataset_id": dataset_id,
+            "registry_matches": registry_match,
+            "static_catalog_matches": static_match,
+            "crs": None,
+            "scale_or_resolution": None,
+            "last_updated": None,
+        },
+        provenance={
+            "source_name": "GeoMine static source registry",
+            "source_url": None,
+            "retrieval_status": "parsed",
+            "network": "not-used",
+            "license": "mixed; verify per dataset",
+            "limitations": ["Metadata is from local registry only unless a live adapter is added."],
+        },
+        warnings=["Dataset metadata is incomplete until retrieved from the authoritative source."],
+        next_steps=["Fetch authoritative metadata and preserve source id, license, CRS, scale/resolution, and update date."],
+    )
+
+
+def summarize_dataset_provenance_tool(dataset: dict[str, Any]) -> dict[str, Any]:
+    source_name = dataset.get("source_name") or dataset.get("name") or dataset.get("dataset_id") or "unknown"
+    return _mcp_result(
+        tool="summarize_dataset_provenance",
+        query={"dataset_keys": sorted(dataset.keys())},
+        result={
+            "source_name": source_name,
+            "source_url": dataset.get("source_url") or dataset.get("url"),
+            "crs": dataset.get("crs"),
+            "scale_or_resolution": dataset.get("scale_or_resolution"),
+            "license": dataset.get("license", "unknown; verify source"),
+            "limitations": dataset.get("limitations", []),
+        },
+        provenance={
+            "source_name": "GeoMine provenance summarizer",
+            "source_url": None,
+            "retrieval_status": "parsed",
+            "network": "not-used",
+            "license": "internal",
+            "limitations": ["Summarization preserves supplied metadata only; it does not verify the source."],
+        },
+        warnings=[] if dataset.get("source_url") or dataset.get("url") else ["No source URL was supplied."],
+        next_steps=["Verify source URL, license, CRS, scale/resolution, and update date before using the dataset as evidence."],
+    )
+
+
+def query_claim_neighbors_tool(claim_id: str, buffer_km: float = 10.0, allow_network: bool = False) -> dict[str, Any]:
+    retrieval_status = "unsupported" if allow_network or _network_default() else "planned"
+    network = "requested-but-not-implemented" if allow_network or _network_default() else "disabled"
+    return _mcp_result(
+        tool="query_claim_neighbors",
+        query={"claim_id": claim_id, "buffer_km": buffer_km, "allow_network": allow_network},
+        results=[],
+        provenance={
+            "source_name": "GeoMine claim-neighbor planner",
+            "source_url": None,
+            "retrieval_status": retrieval_status,
+            "network": network,
+            "license": "verify from source",
+            "limitations": ["No live claim registry query or spatial buffer calculation was performed."],
+        },
+        warnings=[
+            "Claim registry integration is not implemented in this MCP version.",
+            "Do not infer ownership, expiry, or neighbor proximity without authoritative tenure geometry.",
+        ],
+        next_steps=[
+            "Add jurisdiction-specific tenure adapter and CRS-safe buffer calculation.",
+            "Preserve claim id, owner/operator, status, expiry date, geometry source, and update date.",
+        ],
+    )
+
+
+def calculate_infrastructure_distance_tool(
+    aoi: str,
+    infrastructure_type: str = "road",
+    allow_network: bool = False,
+) -> dict[str, Any]:
+    retrieval_status = "unsupported" if allow_network or _network_default() else "planned"
+    network = "requested-but-not-implemented" if allow_network or _network_default() else "disabled"
+    return _mcp_result(
+        tool="calculate_infrastructure_distance",
+        query={"aoi": aoi, "infrastructure_type": infrastructure_type, "allow_network": allow_network},
+        result={
+            "nearest_distance_km": None,
+            "method": "not_calculated_in_current_version",
+            "required_inputs": ["authoritative AOI geometry", "confirmed CRS", "infrastructure layer"],
+        },
+        provenance={
+            "source_name": "GeoMine infrastructure-distance planner",
+            "source_url": None,
+            "retrieval_status": retrieval_status,
+            "network": network,
+            "license": "verify per infrastructure layer",
+            "limitations": ["No real distance calculation was performed."],
+        },
+        warnings=[
+            "Infrastructure distance requires CRS-safe spatial analysis and authoritative road/power/rail layers.",
+        ],
+        next_steps=[
+            "Resolve AOI geometry and CRS.",
+            "Select authoritative infrastructure layers and compute distance in a projected CRS.",
         ],
     )

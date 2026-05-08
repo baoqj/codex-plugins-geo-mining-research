@@ -1,14 +1,14 @@
 # GeoMine Research MCP Roadmap
 
-This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plugin with real data adapters and a later MCP server. Do not add `.mcp.json` or `mcpServers` to `.codex-plugin/plugin.json` until at least one MCP server is implemented, tested, and documented.
+This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plugin with a tested local MCP server, deterministic evidence tools, and a path toward future bounded live adapters.
 
 ## Current State
 
-- v0.1 packages skills, references, examples, validation, and deterministic helper scripts.
-- v0.1 does not perform live retrieval.
-- v0.1 does not declare MCP servers.
-- v0.2 pre-activation introduces adapter modules, pure MCP tool functions, and a local STDIO server entrypoint.
-- v0.2 pre-activation still defers `.mcp.json` and plugin manifest activation until Inspector/Codex smoke tests pass.
+- v0.1 packaged skills, references, examples, validation, and deterministic helper scripts.
+- v0.2 declares plugin-root `.mcp.json` through `.codex-plugin/plugin.json`.
+- v0.2 exposes a local stdio MCP server named `geomine`.
+- v0.2 includes adapter modules, pure MCP tool functions, server wrappers, and contract tests.
+- v0.2 still disables live network retrieval by default; unsupported live paths return explicit `unsupported` status instead of fabricated data.
 
 ## Official Codex Constraints
 
@@ -18,51 +18,70 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 - MCP servers can be local stdio processes or streamable HTTP servers.
 - MCP configuration should be introduced only when the server can be started and tested.
 
-## v0.2 Candidate Tools
+## v0.2 Exposed MCP Tools
 
-### `search_geodata_sources`
+### `normalize_aoi`
 
-- Purpose: search Canada-first geodata catalogues for AOI-relevant source records.
+- Purpose: normalize supplied AOI text or geometry and explicitly detect what remains unresolved.
+- Inputs: AOI string or object, default CRS.
+- Output schema: normalized AOI fields, assumptions, warnings, provenance, and next steps.
+- Test strategy: deterministic unit tests and MCP stdio sample call.
+
+### `search_canada_geodata`
+
+- Purpose: plan Canada-first geodata catalogue discovery for a query, province, and commodity.
 - Candidate adapters: Open Canada CKAN, BC Data Catalogue CKAN, Geo.ca/Open Maps records.
-- Inputs: query, jurisdiction, data type, rows, optional AOI bounding box.
-- Output schema: source name, catalogue id, title, description, formats, license, URL, provider, date, confidence, retrieval status.
-- Cache key: normalized query, jurisdiction, data type, rows, source adapter version.
-- Test strategy: fixture-based CKAN payloads and no network calls in unit tests.
+- Output schema: planned source records, request metadata, provenance, warnings, and next steps.
+- Test strategy: fixture-safe tool contract tests and no default network calls.
 
-### `fetch_geochem_metadata`
+### `search_cdogs_surveys`
 
-- Purpose: retrieve or parse geochemical survey metadata before analytical interpretation.
-- Candidate adapters: NRCan CDoGS, USGS National Geochemical Database, provincial geochemical catalogues.
-- Inputs: survey id or catalogue record URL, optional element list, jurisdiction.
-- Output schema: survey id, medium, methods, elements, detection-limit notes, file links, KML or WMS links, provenance.
-- Cache key: source id or source URL plus adapter version.
-- Test strategy: saved HTML/JSON/CSV fixtures; live integration tests remain opt-in.
+- Purpose: plan NRCan CDoGS geochemical survey discovery before analytical interpretation.
+- Candidate adapters: future CDoGS metadata and spreadsheet/KML parsers.
+- Output schema: source notes, expected metadata fields, limitations, provenance, warnings, and next steps.
+- Test strategy: deterministic current output; future saved HTML/CSV/KML fixtures.
 
-### `search_mineral_occurrences`
+### `search_bc_minfile`
 
-- Purpose: find mineral occurrence records around a confirmed AOI or by commodity/model query.
-- Candidate adapters: BC MINFILE through DataBC tables, Ontario Mineral Inventory KML/GeologyOntario records, USGS MRData/USMIN as extension source.
-- Inputs: jurisdiction, commodity, deposit model, AOI geometry or bbox, rows, source preference.
-- Output schema: occurrence id, source, name, coordinates, CRS, commodity, status, deposit model, location confidence, source URL, update date.
-- Cache key: jurisdiction, source, normalized AOI/bbox, commodity, model, rows.
-- Test strategy: fixture-based CKAN, KML, GeoJSON, and ArcGIS REST FeatureSet payloads.
+- Purpose: plan BC MINFILE occurrence lookup for an AOI and commodity.
+- Candidate adapters: BC Data Catalogue and MINFILE table-resource parser.
+- Test strategy: deterministic current output; future CKAN/table fixtures.
 
-### `resolve_aoi`
+### `search_ontario_omi`
 
-- Purpose: normalize supplied AOI geometry and explicitly detect what is unresolved.
-- Candidate adapters: none in early v0.2; use local normalization plus optional future geocoder.
-- Inputs: name, province or territory, country, CRS, coordinates, bbox, polygon, NTS sheet.
-- Output schema: normalized AOI, warnings, assumptions, source geometry status, analysis CRS recommendation.
-- Test strategy: deterministic unit tests.
+- Purpose: plan Ontario Mineral Inventory / OGSEarth occurrence lookup.
+- Candidate adapters: OGSEarth KML registry and OMI metadata parser.
+- Test strategy: deterministic current output; future KML fixtures.
 
-### `retrieve_assessment_reports`
+### `search_saskatchewan_mineral_data`
 
-- Purpose: plan or retrieve public assessment-report metadata and source documents.
-- Candidate adapters: BC ARIS and Property File, Ontario Assessment File Database, provincial report systems.
-- Inputs: jurisdiction, report id, project/property name, NTS, commodity, AOI.
-- Output schema: report id, title, author, year, source, file URL, data package URL, confidentiality or access notes.
-- Cache key: jurisdiction, report id or query fields.
-- Test strategy: fixture-based metadata pages; file downloads remain opt-in.
+- Purpose: plan Saskatchewan public mineral-data lookup for AOI, NTS, or commodity context.
+- Candidate adapters: future Saskatchewan public registry and map-service wrappers.
+- Test strategy: deterministic current output; future source-specific fixtures.
+
+### `fetch_dataset_metadata`
+
+- Purpose: fetch local registry metadata for a known dataset id.
+- Output schema: local metadata record, missing provenance fields, warnings, and next steps.
+- Test strategy: deterministic local registry tests.
+
+### `summarize_dataset_provenance`
+
+- Purpose: normalize a supplied dataset/provenance block without claiming source verification.
+- Output schema: provenance summary, missing fields, warnings, and next steps.
+- Test strategy: deterministic object contract tests.
+
+### `query_claim_neighbors`
+
+- Purpose: plan a claim-neighbor scan without fabricating tenure results.
+- Candidate adapters: future provincial tenure APIs or downloaded public tenure layers.
+- Test strategy: deterministic current output; future bounded integration tests behind flags.
+
+### `calculate_infrastructure_distance`
+
+- Purpose: plan infrastructure-distance calculation and report required missing inputs.
+- Candidate adapters: future authoritative roads, rail, power, port, and processing-facility layers.
+- Test strategy: deterministic current output; future spatial fixtures.
 
 ## Data Source Roadmap
 
@@ -116,30 +135,35 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 
 ## MCP Server Shape
 
-The pre-activation code now includes the server entrypoint and adapters, but not `.mcp.json`:
+The v0.2 implementation includes a plugin-root `.mcp.json`, the server entrypoint, deterministic tools, and adapter scaffolding:
 
 ```text
+.mcp.json
 scripts/geomine_mcp_server.py
 scripts/geomine/tools.py
 scripts/geomine/adapters/
-tests/test_mcp_contract.py
+tests/test_mcp_tools.py
+tests/test_mcp_server_import.py
 ```
 
-Add `.mcp.json` only after Inspector and Codex smoke tests pass.
-
-Proposed server name:
+Server name:
 
 ```text
-geomine-research
+geomine
 ```
 
-Proposed tools:
+Enabled tools:
 
-- `search_geodata_sources`
-- `fetch_geochem_metadata`
-- `search_mineral_occurrences`
-- `resolve_aoi`
-- `retrieve_assessment_reports`
+- `normalize_aoi`
+- `search_canada_geodata`
+- `search_cdogs_surveys`
+- `search_bc_minfile`
+- `search_ontario_omi`
+- `search_saskatchewan_mineral_data`
+- `fetch_dataset_metadata`
+- `summarize_dataset_provenance`
+- `query_claim_neighbors`
+- `calculate_infrastructure_distance`
 
 Each MCP tool should return:
 
@@ -156,13 +180,15 @@ Each MCP tool should return:
 - Each normalized record must retain a pointer to the raw source or cache id.
 - Never collapse multiple sources into one record without preserving source lineage.
 
-## Test Gates Before Adding `.mcp.json`
+## Activation And Test Gates
 
+- `.mcp.json` is present at the plugin root and referenced by `"mcpServers": "./.mcp.json"`.
+- Validation checks plugin manifest, MCP config, required files, and enabled tool names.
 - Unit tests for URL building and parsing pass without network.
 - Fixture tests cover CKAN, ArcGIS REST FeatureSet, GeoJSON, KML, CSV, and HTML metadata where relevant.
 - Optional integration tests are gated by `GEOMINE_RUN_LIVE_TESTS=1`.
 - Live tests use small bounded queries and record source URLs.
-- Validation script checks `.mcp.json` only after it is intentionally introduced.
+- MCP stdio smoke tests confirm the server starts, exposes exactly ten tools, and can call sample tools.
 - README documents how to run the MCP server and how to disable network access.
 
 ## Source Notes Reviewed
