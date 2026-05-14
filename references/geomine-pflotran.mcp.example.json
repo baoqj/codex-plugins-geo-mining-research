@@ -1,0 +1,38 @@
+{
+  "geomine_pflotran": {
+    "command": "uv",
+    "args": [
+      "--directory",
+      "./mcp/geomine-thmc-server",
+      "run",
+      "geomine-pflotran-mcp"
+    ],
+    "env": {
+      "GEOMINE_THMC_MODE": "mock"
+    },
+    "env_vars": [
+      "OPENMINE_DATABASE_URL",
+      "OPENMINE_R2_BUCKET",
+      "OPENMINE_R2_ACCESS_KEY_ID",
+      "OPENMINE_R2_SECRET_ACCESS_KEY",
+      "PFLOTRAN_EXECUTOR_URL",
+      "GEOMINE_MCP_TOKEN",
+      "GEOMINE_THMC_CACHE_DIR",
+      "GEOMINE_THMC_MODE"
+    ],
+    "startup_timeout_sec": 30,
+    "tool_timeout_sec": 600,
+    "enabled": false,
+    "required": false,
+    "enabled_tools": [
+      "validate_input_deck",
+      "build_input_deck",
+      "build_run_manifest",
+      "parse_observation_output",
+      "generate_result_summary",
+      "save_model_package",
+      "get_model_package",
+      "list_model_packages"
+    ]
+  }
+}

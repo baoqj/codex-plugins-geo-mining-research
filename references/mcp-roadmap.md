@@ -5,8 +5,8 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 ## Current State
 
 - v0.1 packaged skills, references, examples, validation, and deterministic helper scripts.
-- v0.2 declares plugin-root `.mcp.json` through `.codex-plugin/plugin.json`.
-- v0.2 exposes a local stdio MCP server named `geomine`.
+- v0.2 keeps MCP activation deferred by default: `.codex-plugin/plugin.json` has no `skills` or `mcpServers` entry, and the root `.mcp.json` is absent.
+- v0.2 includes a disabled example config at `references/geomine.mcp.example.json` for a local stdio MCP server named `geomine`.
 - v0.2 includes adapter modules, pure MCP tool functions, server wrappers, and contract tests.
 - v0.2 still disables live network retrieval by default; unsupported live paths return explicit `unsupported` status instead of fabricated data.
 
@@ -14,7 +14,7 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 
 - Codex plugins use `.codex-plugin/plugin.json` as the required manifest.
 - Plugin paths such as `skills`, `mcpServers`, and apps are relative to the plugin root.
-- `.mcp.json` belongs at the plugin root, not inside `.codex-plugin/`.
+- When MCP is explicitly enabled, `.mcp.json` belongs at the plugin root, not inside `.codex-plugin/`.
 - MCP servers can be local stdio processes or streamable HTTP servers.
 - MCP configuration should be introduced only when the server can be started and tested.
 
@@ -135,10 +135,10 @@ This roadmap moves GeoMine Research from a skill-only v0.1 plugin to a v0.2 plug
 
 ## MCP Server Shape
 
-The v0.2 implementation includes a plugin-root `.mcp.json`, the server entrypoint, deterministic tools, and adapter scaffolding:
+The v0.2 implementation includes a disabled MCP example config, the server entrypoint, deterministic tools, and adapter scaffolding:
 
 ```text
-.mcp.json
+references/geomine.mcp.example.json
 scripts/geomine_mcp_server.py
 scripts/geomine/tools.py
 scripts/geomine/adapters/
@@ -182,8 +182,9 @@ Each MCP tool should return:
 
 ## Activation And Test Gates
 
-- `.mcp.json` is present at the plugin root and referenced by `"mcpServers": "./.mcp.json"`.
-- Validation checks plugin manifest, MCP config, required files, and enabled tool names.
+- Plugin manifest default state has no `skills` and no `mcpServers` entry.
+- Root `.mcp.json` remains absent until a local environment explicitly enables MCP.
+- Validation checks plugin manifest, deferred MCP example config, required files, and enabled tool names.
 - Unit tests for URL building and parsing pass without network.
 - Fixture tests cover CKAN, ArcGIS REST FeatureSet, GeoJSON, KML, CSV, and HTML metadata where relevant.
 - Optional integration tests are gated by `GEOMINE_RUN_LIVE_TESTS=1`.

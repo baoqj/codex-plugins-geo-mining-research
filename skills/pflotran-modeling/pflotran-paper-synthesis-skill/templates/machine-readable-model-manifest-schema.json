@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "required": [
+    "package_type",
+    "version",
+    "research_objective",
+    "scenario",
+    "solver_family",
+    "process_modes",
+    "domain",
+    "materials",
+    "initial_conditions",
+    "boundary_conditions",
+    "chemistry",
+    "execution",
+    "outputs",
+    "limitations",
+    "missing_data"
+  ],
+  "properties": {
+    "package_type": {"const": "PFLOTRAN Modeling Package"},
+    "version": {"type": "string"},
+    "research_objective": {"type": "string"},
+    "scenario": {"type": "string"},
+    "solver_family": {"const": "PFLOTRAN"},
+    "relationship_to_thmc": {"type": "string"},
+    "process_modes": {"type": "object"},
+    "domain": {"type": "object"},
+    "materials": {"type": "array"},
+    "initial_conditions": {"type": "array"},
+    "boundary_conditions": {"type": "array"},
+    "chemistry": {"type": "object"},
+    "execution": {"type": "object"},
+    "outputs": {"type": "object"},
+    "limitations": {"type": "array"},
+    "missing_data": {"type": "array"}
+  }
+}

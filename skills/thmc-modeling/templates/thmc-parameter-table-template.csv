@@ -1,0 +1,7 @@
+parameter,symbol,process,unit,source,priority,uncertainty,notes
+hydraulic_conductivity,K,H,m/s,required measurement,high,,field or lab estimate required
+porosity,n,H/MC,dimensionless,required measurement,high,,distinguish matrix and fracture porosity
+temperature,T,T,K or deg C,field measurement,medium,,include gradient when thermal coupling is active
+distribution_coefficient,Kd,C,m3/kg,required measurement,high,,do not invent radionuclide sorption values
+reactive_surface_area,A_react,C,m2/m3,required measurement,high,,mineral-specific
+fracture_aperture,b,HM,m,required measurement,medium,,needed if mechanical feedback is active

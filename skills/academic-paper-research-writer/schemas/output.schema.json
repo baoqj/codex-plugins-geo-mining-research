@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/academic-paper-output.schema.json",
+  "title": "GeoMine Academic Paper Output",
+  "type": "object",
+  "required": ["title", "abstract", "keywords", "research_questions", "hypotheses", "paper_outline", "evidence_matrix", "limitations", "references", "peer_review_checklist"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {"type": "string"},
+    "abstract": {"type": "string"},
+    "keywords": {"type": "array", "items": {"type": "string"}},
+    "research_questions": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"type": "string"}},
+    "paper_outline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section", "purpose", "key_content"],
+        "additionalProperties": false,
+        "properties": {
+          "section": {"type": "string"},
+          "purpose": {"type": "string"},
+          "key_content": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "literature_review_plan": {"type": "string"},
+    "mechanistic_framework": {"type": "string"},
+    "equations": {
+      "type": "array",
+      "items": {"$ref": "equation_registry.schema.json#/$defs/equation"}
+    },
+    "evidence_matrix": {
+      "type": "array",
+      "items": {"$ref": "evidence_matrix.schema.json#/$defs/evidence_item"}
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["table_title", "columns", "rows"],
+        "additionalProperties": false,
+        "properties": {
+          "table_title": {"type": "string"},
+          "columns": {"type": "array", "items": {"type": "string"}},
+          "rows": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}}
+        }
+      }
+    },
+    "draft_sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "section": {"type": "string"},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "future_work": {"type": "array", "items": {"type": "string"}},
+    "references": {"type": "array", "items": {"type": "string"}},
+    "peer_review_checklist": {"type": "array", "items": {"type": "string"}}
+  }
+}

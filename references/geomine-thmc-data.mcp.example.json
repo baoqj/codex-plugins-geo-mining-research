@@ -1,0 +1,45 @@
+{
+  "geomine_thmc_data": {
+    "command": "uv",
+    "args": [
+      "--directory",
+      "./mcp/geomine-thmc-server",
+      "run",
+      "geomine-thmc-data-mcp"
+    ],
+    "env": {
+      "GEOMINE_THMC_MODE": "mock"
+    },
+    "env_vars": [
+      "OPENMINE_API_BASE_URL",
+      "OPENMINE_API_TOKEN",
+      "OPENMINE_PROJECT_DB_URL",
+      "OPENMINE_POSTGIS_DSN",
+      "OPENMINE_R2_ENDPOINT",
+      "OPENMINE_R2_ACCESS_KEY_ID",
+      "OPENMINE_R2_SECRET_ACCESS_KEY",
+      "OPENMINE_R2_BUCKET",
+      "GEOMINE_THMC_CACHE_DIR",
+      "GEOMINE_THMC_MODE"
+    ],
+    "startup_timeout_sec": 45,
+    "tool_timeout_sec": 180,
+    "enabled": false,
+    "required": false,
+    "enabled_tools": [
+      "list_dgr_data_campaigns",
+      "get_dgr_data_campaign",
+      "register_dgr_borehole",
+      "ingest_dgr_sensor_timeseries",
+      "ingest_dgr_water_sample",
+      "ingest_dgr_rock_core_measurement",
+      "ingest_dgr_packer_test",
+      "ingest_dgr_in_situ_stress",
+      "validate_dgr_thmc_dataset",
+      "build_dgr_calibration_dataset",
+      "save_dgr_data_package",
+      "get_dgr_data_package",
+      "list_dgr_data_packages"
+    ]
+  }
+}

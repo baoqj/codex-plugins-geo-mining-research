@@ -1,0 +1,196 @@
+{
+  "title": "Eastern Athabasca Uranium Research Workflow",
+  "subtitle": "Multi-stage GeoMine Researcher demo: source planning, system reasoning, evidence lanes, and 3D communication",
+  "status": "conceptual",
+  "crs": "NAD83 UTM Zone 13 referenced in source metadata; scene geometry is conceptual",
+  "verticalExaggeration": 1.42,
+  "camera": {
+    "position": [5.3, 3.4, 5.9],
+    "target": [0, -0.34, 0]
+  },
+  "layers": [
+    {
+      "id": "modern-map-plane",
+      "name": "Modern GIS evidence plane",
+      "color": "#9bbf94",
+      "depth": 0.58,
+      "thickness": 0.06,
+      "note": "Represents map-view public evidence layers: bedrock geology, lithogeochemistry, mineral occurrences, and planned survey sources."
+    },
+    {
+      "id": "athabasca-cover",
+      "name": "Athabasca Group sandstone cover",
+      "color": "#d8a657",
+      "depth": 0.22,
+      "thickness": 0.52,
+      "note": "Conceptual basin cover based on the regional Athabasca Basin unconformity uranium model."
+    },
+    {
+      "id": "unconformity",
+      "name": "Unconformity horizon",
+      "color": "#f6e7b4",
+      "depth": -0.12,
+      "thickness": 0.08,
+      "note": "Interpretive horizon where sandstone cover overlies basement; not a mapped surface in this demo."
+    },
+    {
+      "id": "wollaston-basement",
+      "name": "Graphitic Wollaston-style basement package",
+      "color": "#475569",
+      "depth": -0.72,
+      "thickness": 0.86,
+      "note": "Conceptual reduced basement corridor analogous to evidence described in eastern Athabasca uranium occurrences."
+    }
+  ],
+  "structures": [
+    {
+      "id": "reactivated-fault",
+      "name": "Reactivated basement fault corridor",
+      "color": "#dc2626",
+      "points": [[-2.2, -1.2, -0.95], [-1.15, -0.55, -0.36], [0.15, -0.16, 0.05], [1.95, 0.45, 0.78]],
+      "note": "Research hypothesis: reactivated structures provide permeability and redox/fluid mixing sites."
+    },
+    {
+      "id": "hydrothermal-pathway",
+      "name": "Hydrothermal fluid pathway",
+      "color": "#fb923c",
+      "points": [[-1.85, -1.0, 0.7], [-0.75, -0.38, 0.22], [0.16, -0.13, 0.06], [1.42, 0.15, -0.55]],
+      "note": "Interpretive pathway for explaining how basinal fluids and reduced basement fluids could interact."
+    },
+    {
+      "id": "alteration-halo",
+      "name": "Alteration halo corridor",
+      "color": "#22c55e",
+      "points": [[-1.55, -0.72, -0.62], [-0.4, -0.22, -0.12], [0.58, -0.1, 0.25], [1.62, 0.28, 0.55]],
+      "note": "Visual lane for alteration, pathfinder geochemistry, and uncertainty, not a measured halo."
+    }
+  ],
+  "oreBodies": [
+    {
+      "id": "conceptual-lens",
+      "name": "Conceptual uranium lens",
+      "color": "#facc15",
+      "position": [0.18, -0.18, 0.06],
+      "scale": [0.82, 0.12, 0.34],
+      "note": "Represents a hypothesis target at the structure-unconformity intersection. It is not a resource, reserve, or verified mineralized body."
+    }
+  ],
+  "drillholes": [
+    {
+      "id": "historic-drill-trace",
+      "name": "Historic analogue drill trace",
+      "color": "#111827",
+      "from": [-1.35, 1.24, -0.78],
+      "to": [-0.05, -1.08, 0.08],
+      "note": "Conceptual trace used to explain how drilling could test the unconformity and basement structure."
+    },
+    {
+      "id": "proposed-drill-trace",
+      "name": "Proposed validation drill trace",
+      "color": "#334155",
+      "from": [1.45, 1.18, 0.78],
+      "to": [0.15, -1.12, 0.02],
+      "note": "Represents the next-work design stage; final collar and azimuth require real GIS, geophysics, permits, and field validation."
+    }
+  ],
+  "gisPoints": [
+    {
+      "id": "bedrock-layer",
+      "name": "Bedrock geology source",
+      "color": "#2563eb",
+      "position": [-1.75, 0.62, -1.05],
+      "note": "Saskatchewan GeoAtlas bedrock geology metadata supports regional geology framing."
+    },
+    {
+      "id": "lithogeochem-layer",
+      "name": "Lithogeochemistry source",
+      "color": "#38bdf8",
+      "position": [1.58, 0.62, -0.92],
+      "note": "Athabasca lithogeochemistry metadata supports geochemical baseline and anomaly-lane planning."
+    },
+    {
+      "id": "rabbit-lake-analogue",
+      "name": "Rabbit Lake analogue",
+      "color": "#a78bfa",
+      "position": [-1.52, 0.42, 0.92],
+      "note": "Government of Saskatchewan SMDI record provides a public analogue for unconformity-related uranium system reasoning."
+    },
+    {
+      "id": "cdogs-planned",
+      "name": "CDoGS planning lane",
+      "color": "#06b6d4",
+      "position": [1.42, 0.38, 0.86],
+      "note": "NRCan CDoGS is included as a public geochemistry source-planning lane; live retrieval is not claimed."
+    },
+    {
+      "id": "field-validation",
+      "name": "Field validation gate",
+      "color": "#16a34a",
+      "position": [0.05, 0.72, 0.02],
+      "note": "Final stage where actual GIS, geophysics, field mapping, sampling, permitting, and professional review are required."
+    }
+  ],
+  "timeline": [
+    {
+      "id": "question-framing",
+      "label": "Research Question",
+      "description": "Can a public-data, provenance-preserving workflow explain where an unconformity-related uranium target hypothesis would come from?"
+    },
+    {
+      "id": "source-inventory",
+      "label": "Source Inventory",
+      "description": "Use public bedrock geology, Athabasca lithogeochemistry, CDoGS, and Saskatchewan mineral occurrence records as evidence lanes."
+    },
+    {
+      "id": "entity-normalization",
+      "label": "Entity Normalization",
+      "description": "Normalize AOI, CRS, commodity, deposit model, dataset status, and caveats before drawing or reasoning."
+    },
+    {
+      "id": "system-architecture",
+      "label": "System Architecture",
+      "description": "Render sandstone cover, unconformity, graphitic basement, and reactivated fault corridors as a conceptual geologic architecture."
+    },
+    {
+      "id": "evidence-reasoning",
+      "label": "Evidence Reasoning",
+      "description": "Use the 3D scene to explain why structure, redox contrast, geochemistry, and analogues are separate but related evidence lanes."
+    },
+    {
+      "id": "hypothesis-and-gaps",
+      "label": "Hypothesis and Gaps",
+      "description": "Show the target hypothesis and the missing evidence required before any technical or economic conclusion."
+    },
+    {
+      "id": "work-program",
+      "label": "Work Program",
+      "description": "Translate the visual hypothesis into next work: source retrieval, GIS validation, geophysics, field checks, sampling, and professional review."
+    }
+  ],
+  "provenance": [
+    {
+      "label": "Saskatchewan GeoAtlas - Lithogeochemistry of the Athabasca Basin",
+      "url": "https://gisappl.saskatchewan.ca/WebDocs/Geo_Atlas/MetaData/Lithogeochemistry_Athabasca.html",
+      "retrievalStatus": "metadata-reviewed",
+      "limitations": "Metadata describes a historical sampling program and analytical package; this demo does not parse sample-level assay tables."
+    },
+    {
+      "label": "Saskatchewan GeoAtlas - Bedrock geology",
+      "url": "https://gisappl.saskatchewan.ca/WebDocs/Geo_Atlas/MetaData/Bedrock_Geology.html",
+      "retrievalStatus": "metadata-reviewed",
+      "limitations": "Regional bedrock layer is useful for context; this demo does not import the vector dataset."
+    },
+    {
+      "label": "Government of Saskatchewan SMDI - Rabbit Lake Mine",
+      "url": "https://mineraldeposits.saskatchewan.ca/Home/Viewdetails/1713",
+      "retrievalStatus": "record-reviewed",
+      "limitations": "Used as an analogue for research communication, not as evidence that the conceptual AOI contains a resource."
+    },
+    {
+      "label": "NRCan CDoGS",
+      "url": "https://geochem.nrcan.gc.ca/cdogs/content/main/home_en.htm",
+      "retrievalStatus": "planned",
+      "limitations": "Included as a future geochemical survey retrieval lane; live retrieval is not claimed in this example."
+    }
+  ]
+}

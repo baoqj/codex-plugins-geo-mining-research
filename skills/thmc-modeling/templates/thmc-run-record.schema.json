@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/thmc-run-record.schema.json",
+  "type": "object",
+  "required": [
+    "run_id",
+    "project_id",
+    "model_id",
+    "model_version_id",
+    "solver",
+    "input_asset_ids",
+    "output_asset_ids",
+    "parameters_hash",
+    "data_hash",
+    "submitted_at",
+    "status",
+    "warnings"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "project_id": { "type": "string" },
+    "model_id": { "type": "string" },
+    "model_version_id": { "type": "string" },
+    "solver": { "type": "string" },
+    "solver_version": { "type": "string" },
+    "input_asset_ids": { "type": "array", "items": { "type": "string" } },
+    "output_asset_ids": { "type": "array", "items": { "type": "string" } },
+    "parameters_hash": { "type": "string" },
+    "data_hash": { "type": "string" },
+    "submitted_at": { "type": "string" },
+    "completed_at": { "type": ["string", "null"] },
+    "status": { "type": "string" },
+    "error_log": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "created_by": { "type": "string" }
+  }
+}

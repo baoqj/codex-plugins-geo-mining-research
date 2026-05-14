@@ -1,0 +1,2 @@
+material_id,region,porosity,permeability_m2,tortuosity,thermal_conductivity_W_m_K,heat_capacity_J_kg_K,density_kg_m3,source,notes
+1,<region_name>,<porosity>,<permeability_m2>,<tortuosity>,<thermal_conductivity>,<heat_capacity>,<density>,<measured_or_placeholder>,<notes>

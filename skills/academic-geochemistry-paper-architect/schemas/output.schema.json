@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AcademicGeochemistryPaperArchitectOutput",
+  "type": "object",
+  "required": [
+    "paper_type",
+    "research_questions",
+    "hypotheses",
+    "required_data",
+    "methods",
+    "figures",
+    "tables",
+    "paper_outline",
+    "section_writing_guidance",
+    "citation_requirements",
+    "uncertainty_checks",
+    "quality_checklist",
+    "downstream_skills"
+  ],
+  "properties": {
+    "paper_type": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {"type": "string"},
+        "secondary": {"type": "string"},
+        "tertiary": {"type": "string"},
+        "rationale": {"type": "string"}
+      }
+    },
+    "research_questions": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"type": "string"}},
+    "required_data": {"type": "array", "items": {"type": "string"}},
+    "methods": {"type": "array", "items": {"type": "string"}},
+    "figures": {"type": "array", "items": {"type": "string"}},
+    "tables": {"type": "array", "items": {"type": "string"}},
+    "paper_outline": {"type": "string"},
+    "section_writing_guidance": {"type": "string"},
+    "citation_requirements": {"type": "array", "items": {"type": "string"}},
+    "uncertainty_checks": {"type": "array", "items": {"type": "string"}},
+    "quality_checklist": {"type": "array", "items": {"type": "string"}},
+    "downstream_skills": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

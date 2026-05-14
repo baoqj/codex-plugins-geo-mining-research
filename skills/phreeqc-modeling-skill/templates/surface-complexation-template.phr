@@ -1,0 +1,6 @@
+SURFACE <surface_number>
+  # Use only with documented site density, surface area, and compatible constants.
+  <surface_site_name> <site_moles> <specific_area_m2_g> <solid_mass_g>
+  -equilibrate <solution_number>
+
+END

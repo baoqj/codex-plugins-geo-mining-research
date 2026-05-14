@@ -1,0 +1,19 @@
+RATES
+  <rate_name>
+  -start
+  10 REM Replace placeholders with a documented rate law and sourced constants.
+  20 k = <rate_constant>
+  30 area = <reactive_surface_area>
+  40 moles = k * area * TIME
+  50 SAVE moles
+  -end
+
+KINETICS <kinetics_number>
+  <rate_name>
+    -m <initial_moles>
+    -parms <documented_parameters>
+    -steps <time_steps>
+
+INCREMENTAL_REACTIONS true
+
+END

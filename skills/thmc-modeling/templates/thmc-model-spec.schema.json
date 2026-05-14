@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/thmc-model-spec-2.0.schema.json",
+  "type": "object",
+  "required": [
+    "research_objective",
+    "scenario",
+    "coupling_level",
+    "active_processes",
+    "mcp_status",
+    "conceptual_model",
+    "reaction_network",
+    "solver_recommendation",
+    "validation_plan",
+    "limitations"
+  ],
+  "properties": {
+    "research_objective": { "type": "string" },
+    "scenario": { "type": "string" },
+    "coupling_level": { "type": "string", "enum": ["H", "HC", "THC", "HM", "THM", "THMC"] },
+    "active_processes": {
+      "type": "object",
+      "properties": {
+        "thermal": { "type": "boolean" },
+        "hydrological": { "type": "boolean" },
+        "mechanical": { "type": "boolean" },
+        "chemical": { "type": "boolean" }
+      }
+    },
+    "mcp_status": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string", "enum": ["core", "mcp-enhanced"] },
+        "server": { "type": "string" },
+        "tool_modes": { "type": "object" },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "conceptual_model": { "type": "object" },
+    "data_assets": { "type": "array" },
+    "coupling_matrix": { "type": "array" },
+    "primary_variables": { "type": "array" },
+    "governing_equations": { "type": "array" },
+    "boundary_conditions": { "type": "array" },
+    "initial_conditions": { "type": "array" },
+    "reaction_network": { "type": "object" },
+    "phreeqc": { "type": "object" },
+    "remote_compute": { "type": "object" },
+    "dgr_data_acquisition": { "type": "object" },
+    "dgr_data_packages": { "type": "array" },
+    "parameters": { "type": "array" },
+    "solver_recommendation": { "type": "object" },
+    "model_version": { "type": "object" },
+    "run_records": { "type": "array" },
+    "validation_plan": { "type": "array" },
+    "sensitivity_uncertainty_plan": { "type": "array" },
+    "figure_plan": { "type": "array" },
+    "limitations": { "type": "array" }
+  }
+}

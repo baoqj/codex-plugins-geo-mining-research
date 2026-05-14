@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/thmc-model-spec.schema.json",
+  "type": "object",
+  "required": [
+    "research_objective",
+    "scenario",
+    "coupling_level",
+    "active_processes",
+    "conceptual_model",
+    "primary_variables",
+    "reaction_network",
+    "solver_recommendation",
+    "validation_plan",
+    "limitations"
+  ],
+  "properties": {
+    "research_objective": { "type": "string" },
+    "scenario": { "type": "string" },
+    "coupling_level": {
+      "type": "string",
+      "enum": ["H", "HC", "THC", "HM", "THM", "THMC"]
+    },
+    "active_processes": {
+      "type": "object",
+      "properties": {
+        "thermal": { "type": "boolean" },
+        "hydrological": { "type": "boolean" },
+        "mechanical": { "type": "boolean" },
+        "chemical": { "type": "boolean" }
+      }
+    },
+    "conceptual_model": { "type": "object" },
+    "coupling_matrix": { "type": "array" },
+    "primary_variables": { "type": "array" },
+    "governing_equations": { "type": "array" },
+    "boundary_conditions": { "type": "array" },
+    "initial_conditions": { "type": "array" },
+    "reaction_network": { "type": "object" },
+    "parameters": { "type": "array" },
+    "solver_recommendation": { "type": "object" },
+    "implementation_plan": { "type": "array" },
+    "validation_plan": { "type": "array" },
+    "sensitivity_uncertainty_plan": { "type": "array" },
+    "figure_plan": { "type": "array" },
+    "limitations": { "type": "array" }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/academic-evidence-matrix.schema.json",
+  "title": "GeoMine Academic Evidence Matrix",
+  "type": "object",
+  "$defs": {
+    "evidence_item": {
+      "type": "object",
+      "required": ["claim", "evidence_type", "supporting_sources", "confidence", "limitations"],
+      "additionalProperties": false,
+      "properties": {
+        "claim": {"type": "string"},
+        "evidence_type": {
+          "type": "string",
+          "enum": ["literature", "equation", "dataset", "simulation", "experiment", "inference"]
+        },
+        "supporting_sources": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
+        "known_uncertainty": {"type": "string"},
+        "alternative_explanations": {"type": "array", "items": {"type": "string"}},
+        "additional_evidence_needed": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "required": ["evidence_matrix"],
+  "additionalProperties": false,
+  "properties": {
+    "evidence_matrix": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evidence_item"}
+    }
+  }
+}

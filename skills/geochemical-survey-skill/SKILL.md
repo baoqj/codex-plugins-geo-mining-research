@@ -28,6 +28,7 @@ Review geochemical survey evidence and convert raw or described values into caut
 5. Use robust language: background, weak anomaly, moderate anomaly, strong anomaly, or unclassified.
 6. If numeric arrays are supplied, use `scripts/geomine/geochem.py` for percentile rank, robust z-score, and simple anomaly class.
 7. Explain data gaps and follow-up work before interpreting target potential.
+8. If the user asks for geochemical maps, anomaly figures, pathfinder heatmaps, target-ranking visuals, captions, or manuscript figure planning, route to `academic-figure-package-skill` after the geochemical evidence and QA/QC limits are clarified.
 
 ## Output Contract
 
@@ -41,6 +42,7 @@ Return:
 - Deposit-model relevance.
 - Recommended follow-up.
 - Limitations.
+- Recommended figures when the user is preparing a paper or technical report.
 
 ## Evidence And Provenance Rules
 

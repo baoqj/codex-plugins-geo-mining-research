@@ -17,8 +17,8 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
 
 
 def test_all_skills_have_name_and_description():
-    skill_dirs = sorted((ROOT / "skills").glob("*-skill"))
-    assert len(skill_dirs) == 9
+    skill_dirs = sorted(path.parent for path in (ROOT / "skills").rglob("SKILL.md"))
+    assert len(skill_dirs) == 43
     for skill_dir in skill_dirs:
         data = parse_frontmatter(skill_dir / "SKILL.md")
         assert data["name"] == skill_dir.name

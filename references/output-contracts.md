@@ -57,3 +57,68 @@ Use concise Markdown. Include source provenance and limitations.
 5. Safer wording direction.
 6. Required professional review.
 7. Overall limitations.
+
+## Academic Paper / Journal Article
+
+1. Title.
+2. Abstract.
+3. Keywords.
+4. Introduction with research gap and contribution.
+5. Research questions and hypotheses.
+6. Literature review with verified citations or explicit citation placeholders.
+7. Theoretical framework and methods / model formulation.
+8. Equation registry with variables, units, assumptions, boundary conditions, and validity range when equations are used.
+9. Evidence matrix separating literature, dataset, simulation, experiment, equation, and inference claims.
+10. Results or mechanistic analysis.
+11. Discussion with alternative explanations.
+12. Safety, regulatory, or disclosure boundary when relevant.
+13. Limitations and future work.
+14. Conclusion with boundary conditions.
+15. References.
+16. Peer-review checklist.
+
+## Academic Figure Package
+
+1. Figure strategy.
+2. Figure inventory.
+3. Figure-by-figure specifications.
+4. Scientific content decomposition.
+5. Visual grammar.
+6. Panel layout plan.
+7. Toolchain recommendation.
+8. Drawing prompt or script/rendering plan.
+9. Caption drafts.
+10. Publication readiness checklist.
+11. Data and provenance requirements.
+12. Mining, legal, QP, investment, and data limitation caveats where relevant.
+13. Machine-readable JSON manifest.
+
+## THMC Modeling Package
+
+1. Research objective.
+2. Scenario classification.
+3. Conceptual THMC model.
+4. THMC coupling matrix.
+5. Model domain and geometry.
+6. Primary variables.
+7. Governing equations.
+8. Boundary and initial conditions.
+9. Geochemical reaction network.
+10. Parameters and data requirements.
+11. Solver / software recommendation.
+12. Implementation plan.
+13. Calibration and validation plan.
+14. Sensitivity and uncertainty plan.
+15. Expected outputs.
+16. Publication figure plan.
+17. Limitations and assumptions.
+18. Machine-readable JSON model spec.
+
+## Research Paper / Technical Report PDF
+
+1. Markdown source document.
+2. Normalized Markdown intermediate when formula debugging is needed.
+3. HTML intermediate with MathML math tags.
+4. PDF output using publication-style print CSS.
+5. Formula audit summary, including math tag count and any unconverted `math` code blocks.
+6. Source/provenance list and report limitations preserved from the Markdown source.

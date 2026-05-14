@@ -1,0 +1,15 @@
+SIMULATION
+  SIMULATION_TYPE SUBSURFACE
+  PROCESS_MODELS
+    SUBSURFACE_FLOW flow
+      MODE <THERMAL_FLOW_MODE>
+    /
+    SUBSURFACE_TRANSPORT transport
+      MODE <THERMAL_REACTIVE_TRANSPORT_MODE>
+    /
+  /
+END
+
+SUBSURFACE
+  # Include thermal properties, heat source, and temperature output placeholders.
+END_SUBSURFACE

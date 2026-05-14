@@ -1,0 +1,15 @@
+CHEMISTRY
+  DATABASE <database_file>
+  PRIMARY_SPECIES
+    <primary_species>
+  /
+  SECONDARY_SPECIES
+    <secondary_species>
+  /
+  MINERALS
+    <mineral_species>
+  /
+  MINERAL_KINETICS
+    <kinetic_minerals_if_documented>
+  /
+END

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AcademicGeochemistryPaperArchitectInput",
+  "type": "object",
+  "required": ["research_topic"],
+  "properties": {
+    "research_topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "region": {
+      "type": "string"
+    },
+    "paper_goal": {
+      "type": "string"
+    },
+    "available_data": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "preferred_journal_style": {
+      "type": "string",
+      "enum": ["Elsevier", "GCA", "Nature", "Science", "ACS", "ESSD", "GPL", "custom"]
+    },
+    "output_language": {
+      "type": "string",
+      "enum": ["English", "Chinese", "bilingual"]
+    },
+    "paper_stage": {
+      "type": "string",
+      "enum": ["outline", "proposal", "draft", "revision", "final"]
+    }
+  },
+  "additionalProperties": true
+}

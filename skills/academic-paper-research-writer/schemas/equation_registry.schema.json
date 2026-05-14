@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/academic-equation-registry.schema.json",
+  "title": "GeoMine Academic Equation Registry",
+  "type": "object",
+  "$defs": {
+    "variable": {
+      "type": "object",
+      "required": ["symbol", "definition", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {"type": "string"},
+        "definition": {"type": "string"},
+        "unit": {"type": "string"}
+      }
+    },
+    "equation": {
+      "type": "object",
+      "required": ["equation_id", "latex", "variables", "assumptions", "boundary_conditions"],
+      "additionalProperties": false,
+      "properties": {
+        "equation_id": {"type": "string"},
+        "equation_name": {"type": "string"},
+        "latex": {"type": "string"},
+        "physical_meaning": {"type": "string"},
+        "variables": {"type": "array", "items": {"$ref": "#/$defs/variable"}},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "boundary_conditions": {"type": "array", "items": {"type": "string"}},
+        "validity_range": {"type": "string"},
+        "measurable_quantities": {"type": "array", "items": {"type": "string"}},
+        "claim_link": {"type": "string"}
+      }
+    }
+  },
+  "required": ["equations"],
+  "additionalProperties": false,
+  "properties": {
+    "equations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/equation"}
+    }
+  }
+}

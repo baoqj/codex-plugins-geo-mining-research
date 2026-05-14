@@ -1,16 +1,16 @@
 # Runnable MCP Server Build Guide
 
-This guide documents the current v0.2 GeoMine Research MCP implementation and the repeatable steps for developing, configuring, running, and testing the local server.
+This guide documents the current v0.2 GeoMine Research MCP implementation and the repeatable steps for developing, configuring, running, and testing the local server. Plugin-level activation is deferred by default to avoid Codex startup errors in environments without a complete local MCP/skill setup.
 
 ## 1. Target Outcome
 
-GeoMine Research bundles one local stdio MCP server:
+GeoMine Research implements one local stdio MCP server:
 
 ```text
 Codex / MCP client
   -> reads .codex-plugin/plugin.json
-  -> follows "mcpServers": "./.mcp.json"
-  -> starts the geomine stdio server
+  -> does not auto-register skills or MCP servers by default
+  -> starts the geomine stdio server only after explicit local MCP registration
   -> discovers deterministic GeoMine tools
   -> receives structured results with provenance, warnings, and next_steps
 ```
@@ -40,8 +40,8 @@ The current server does not perform default live retrieval. When a tool receives
 
 ```text
 .codex-plugin/plugin.json
-.mcp.json
 MCP_SETUP.md
+references/geomine.mcp.example.json
 scripts/geomine/tools.py
 scripts/geomine_mcp_server.py
 scripts/run_mcp_sample_cases.py
@@ -52,25 +52,24 @@ tests/test_manifest.py
 
 Key rules:
 
-- Keep `.mcp.json` at the plugin root.
+- Keep root `.mcp.json` absent until the server is intentionally enabled.
+- Keep the default plugin manifest free of `skills` and `mcpServers`.
 - Keep only `plugin.json` inside `.codex-plugin/`.
 - Keep MCP transport code thin; business logic belongs in `scripts/geomine/tools.py`.
 - Keep pure tool tests independent from MCP transport.
 
 ## 3. MCP Configuration
 
-`plugin.json` points to the MCP config:
+`plugin.json` does not point to local skills or MCP servers by default:
 
 ```json
 {
   "name": "geo-mining-research",
-  "version": "0.2.0",
-  "skills": "./skills/",
-  "mcpServers": "./.mcp.json"
+  "version": "0.2.0"
 }
 ```
 
-`.mcp.json` defines a direct server map:
+`references/geomine.mcp.example.json` defines a disabled future-install server map:
 
 ```json
 {
@@ -92,13 +91,13 @@ Key rules:
       "PYTHONPATH": "./scripts",
       "GEOMINE_ALLOW_NETWORK_DEFAULT": "false"
     },
-    "enabled": true,
+    "enabled": false,
     "required": false
   }
 }
 ```
 
-`required` remains `false` so a local MCP startup failure does not disable the whole plugin.
+`enabled` and `required` remain `false` so an incomplete local MCP setup does not affect startup.
 
 ## 4. Tool Implementation Pattern
 
@@ -132,7 +131,7 @@ Validate plugin metadata and MCP JSON:
 
 ```bash
 python3 scripts/validate_plugin.py
-python3 -m json.tool .mcp.json
+python3 -m json.tool references/geomine.mcp.example.json
 ```
 
 Run pytest:
@@ -218,7 +217,7 @@ params = StdioServerParameters(
 The smoke test should confirm:
 
 - `tools_count == 10`
-- tool names match `.mcp.json`
+- tool names match `references/geomine.mcp.example.json`
 - `normalize_aoi` can be called
 - `search_canada_geodata` can be called
 - a direct empty-stdin launch writes zero bytes to stdout

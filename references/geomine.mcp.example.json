@@ -26,7 +26,7 @@
     ],
     "startup_timeout_sec": 30,
     "tool_timeout_sec": 120,
-    "enabled": true,
+    "enabled": false,
     "required": false,
     "enabled_tools": [
       "normalize_aoi",

@@ -1,0 +1,12 @@
+TRANSPORT
+  -cells <cell_count>
+  -shifts <shift_count>
+  -time_step <time_step_seconds>
+  -lengths <cell_lengths_m>
+  -dispersivities <dispersivity_m>
+  -diffusion_coefficient <diffusion_coefficient_m2_s>
+  -boundary_conditions <first_boundary> <last_boundary>
+  -print_cells <cell_numbers>
+  -punch_cells <cell_numbers>
+
+END

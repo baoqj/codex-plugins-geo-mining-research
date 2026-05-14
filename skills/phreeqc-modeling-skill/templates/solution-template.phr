@@ -1,0 +1,21 @@
+TITLE <model_title>
+
+SOLUTION <solution_number> <sample_id>
+  temp <temperature_C>
+  units <mg/L_or_mmol/kgw>
+  pH <pH_value> <charge_or_blank>
+  pe <pe_value>
+  redox <redox_couple_if_used>
+  density <density_kg_L_if_known>
+  Alkalinity <alkalinity_value> <alkalinity_basis_if_needed>
+  Ca <Ca_value>
+  Mg <Mg_value>
+  Na <Na_value>
+  K <K_value>
+  Cl <Cl_value>
+  S(6) <sulfate_as_S_value>
+  C(4) <inorganic_carbon_value_if_not_using_alkalinity>
+  Fe <Fe_total_or_redox_specific_value>
+  U <U_value_if_measured>
+
+END

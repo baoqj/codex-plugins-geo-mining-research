@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/academic-paper-plan.schema.json",
+  "title": "GeoMine Academic Paper Plan",
+  "type": "object",
+  "required": ["title", "paper_type", "research_object", "scope", "research_questions", "hypotheses", "expected_contribution", "required_evidence", "limitations"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {"type": "string"},
+    "paper_type": {"type": "string"},
+    "research_object": {"type": "string"},
+    "scope": {"type": "string"},
+    "exclusions": {"type": "array", "items": {"type": "string"}},
+    "research_questions": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"type": "string"}},
+    "key_variables": {"type": "array", "items": {"type": "string"}},
+    "required_disciplines": {"type": "array", "items": {"type": "string"}},
+    "expected_contribution": {"type": "string"},
+    "academic_novelty": {"type": "string"},
+    "practical_significance": {"type": "string"},
+    "required_evidence": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

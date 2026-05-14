@@ -1,6 +1,6 @@
 # Real Data Adapter And MCP Design
 
-This document defines the engineering boundary for real GeoMine Research data access. v0.2 exposes deterministic MCP tools through the local `geomine` stdio server; future live adapters must still be added behind explicit network flags and fixture-backed tests.
+This document defines the engineering boundary for real GeoMine Research data access. v0.2 implements deterministic MCP tools through the local `geomine` stdio server, but plugin-level MCP activation is deferred by default. Future live adapters must still be added behind explicit network flags and fixture-backed tests.
 
 ## Design Principles
 
@@ -30,7 +30,7 @@ scripts/geomine/adapters/ogsearth.py
 scripts/geomine/adapters/earthchem.py
 ```
 
-The v0.2 implementation includes `scripts/geomine/tools.py`, `scripts/geomine_mcp_server.py`, and plugin-root `.mcp.json`. The exposed tools currently return deterministic planning/provenance records unless a bounded live adapter is implemented.
+The v0.2 implementation includes `scripts/geomine/tools.py`, `scripts/geomine_mcp_server.py`, and a disabled config template at `references/geomine.mcp.example.json`. The exposed tools currently return deterministic planning/provenance records unless a bounded live adapter is implemented.
 
 ## Shared Adapter Contract
 
@@ -129,9 +129,9 @@ Completed in v0.2:
 
 1. Implemented `scripts/geomine_mcp_server.py`.
 2. Added pure tool wrappers and contract tests for every exposed MCP tool.
-3. Added plugin-root `.mcp.json` and updated `.codex-plugin/plugin.json` with `"mcpServers": "./.mcp.json"`.
-4. Updated README and `MCP_SETUP.md` with install, run, and network-disable instructions.
-5. Confirmed `python3 scripts/validate_plugin.py`, MCP JSON parsing, pytest, and stdio smoke tests pass.
+3. Added `references/geomine.mcp.example.json` as a disabled future-install template.
+4. Kept `.codex-plugin/plugin.json` free of default `skills` and `mcpServers` declarations to avoid startup errors from incomplete local installations.
+5. Updated README and `MCP_SETUP.md` with deferred activation, run, and network-disable instructions.
 
 Future live-adapter activation still requires:
 

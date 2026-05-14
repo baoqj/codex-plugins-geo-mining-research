@@ -1,0 +1,1 @@
+**Figure [N]. [Title].** [One sentence stating what the figure shows.] Panel (a) [meaning]. Panel (b) [meaning]. Data sources: [sources and dates]. Methods: [brief method]. Symbols and colors: [legend summary]. Limitations: [conceptual/inferred/data/QP/legal caveat when relevant].

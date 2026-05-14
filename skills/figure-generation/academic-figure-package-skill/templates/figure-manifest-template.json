@@ -1,0 +1,52 @@
+{
+  "figure_package": {
+    "title": "",
+    "paper_title": "",
+    "discipline": "",
+    "target_journal": "",
+    "created_for": "GeoMine Research",
+    "figures": [
+      {
+        "figure_id": "Figure 1",
+        "title": "",
+        "paper_section": "",
+        "figure_type": "",
+        "main_message": "",
+        "scientific_content": {
+          "entities": [],
+          "processes": [],
+          "relationships": [],
+          "data_layers": [],
+          "variables": [],
+          "uncertainties": [],
+          "caveats": []
+        },
+        "visual_grammar": {
+          "colors": [],
+          "symbols": [],
+          "arrows": [],
+          "line_styles": [],
+          "fonts": [],
+          "panel_labels": []
+        },
+        "layout": {
+          "panel_count": 1,
+          "panels": [],
+          "orientation": "",
+          "recommended_size": ""
+        },
+        "toolchain": {
+          "primary_tool": "",
+          "secondary_tools": [],
+          "export_formats": []
+        },
+        "drawing_prompt": "",
+        "script_plan": "",
+        "caption_draft": "",
+        "provenance_requirements": [],
+        "publication_checklist": [],
+        "caveats": []
+      }
+    ]
+  }
+}

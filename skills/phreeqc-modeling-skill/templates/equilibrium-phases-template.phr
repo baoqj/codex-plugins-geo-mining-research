@@ -1,0 +1,8 @@
+EQUILIBRIUM_PHASES <phase_set_number>
+  # Phase  SI_target  amount_moles
+  Calcite <SI_target> <Calcite_initial_moles>
+  Dolomite <SI_target> <Dolomite_initial_moles>
+  Gypsum <SI_target> <Gypsum_initial_moles>
+  Ferrihydrite <SI_target> <Ferrihydrite_initial_moles>
+
+END

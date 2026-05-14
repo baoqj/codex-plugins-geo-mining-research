@@ -1,0 +1,133 @@
+{
+  "title": "Athabasca Uranium Concept Model",
+  "subtitle": "Conceptual basin-margin unconformity scene for GeoMine visualization",
+  "status": "conceptual",
+  "crs": "not authoritative",
+  "verticalExaggeration": 1.35,
+  "camera": {
+    "position": [4.7, 3.1, 5.6],
+    "target": [0, -0.3, 0]
+  },
+  "layers": [
+    {
+      "id": "cover",
+      "name": "Athabasca sandstone cover",
+      "color": "#d8a657",
+      "depth": 0.35,
+      "thickness": 0.46,
+      "note": "Conceptual basin cover sequence."
+    },
+    {
+      "id": "unconformity",
+      "name": "Unconformity surface",
+      "color": "#f4e7bb",
+      "depth": -0.05,
+      "thickness": 0.08,
+      "note": "Regional contact used as an interpretive horizon."
+    },
+    {
+      "id": "basement",
+      "name": "Graphitic basement package",
+      "color": "#475569",
+      "depth": -0.62,
+      "thickness": 0.72,
+      "note": "Conceptual basement conductor and structural host."
+    }
+  ],
+  "structures": [
+    {
+      "id": "fault-corridor",
+      "name": "Reactivated fault corridor",
+      "color": "#ef4444",
+      "points": [[-2.1, -1.18, -0.8], [-0.9, -0.45, -0.2], [0.35, -0.08, 0.18], [1.9, 0.42, 0.72]],
+      "note": "Illustrative fluid pathway; geometry not authoritative."
+    },
+    {
+      "id": "fluid-pathway",
+      "name": "Hydrothermal fluid path",
+      "color": "#fb923c",
+      "points": [[-1.8, -0.95, 0.65], [-0.55, -0.28, 0.18], [0.18, -0.1, 0.05], [1.3, 0.18, -0.45]],
+      "note": "Conceptual flow path for animation."
+    }
+  ],
+  "oreBodies": [
+    {
+      "id": "uranium-lens",
+      "name": "Uranium lens",
+      "color": "#facc15",
+      "position": [0.08, -0.18, 0.07],
+      "scale": [0.78, 0.12, 0.32],
+      "note": "Visual mineralization marker only; not a resource estimate."
+    }
+  ],
+  "drillholes": [
+    {
+      "id": "ddh-01",
+      "name": "DDH-01 concept trace",
+      "color": "#111827",
+      "from": [-1.35, 1.2, -0.7],
+      "to": [-0.05, -1.05, 0.08],
+      "note": "Example drill trace for visual storytelling."
+    },
+    {
+      "id": "ddh-02",
+      "name": "DDH-02 concept trace",
+      "color": "#334155",
+      "from": [1.35, 1.1, 0.75],
+      "to": [0.18, -1.0, 0.05],
+      "note": "Example offset drill trace."
+    }
+  ],
+  "gisPoints": [
+    {
+      "id": "cdogs",
+      "name": "CDoGS geochemistry lane",
+      "color": "#38bdf8",
+      "position": [1.35, 0.18, -0.85],
+      "note": "Planned public geochemical source lane."
+    },
+    {
+      "id": "occurrence",
+      "name": "Mineral occurrence lane",
+      "color": "#a78bfa",
+      "position": [-1.55, 0.05, 0.85],
+      "note": "Represents occurrence evidence to verify."
+    }
+  ],
+  "timeline": [
+    {
+      "id": "basement-architecture",
+      "label": "Basement architecture",
+      "description": "Pre-existing basement structures define possible fluid pathways."
+    },
+    {
+      "id": "cover-and-unconformity",
+      "label": "Cover and unconformity",
+      "description": "Basin cover and unconformity provide stratigraphic context."
+    },
+    {
+      "id": "fluid-flow",
+      "label": "Fluid flow",
+      "description": "Conceptual hydrothermal pathway is shown as an interpretive tube."
+    },
+    {
+      "id": "modern-sampling",
+      "label": "Modern evidence",
+      "description": "Public geochemistry and occurrence lanes are evidence-planning markers."
+    }
+  ],
+  "provenance": [
+    {
+      "label": "NRCan CDoGS",
+      "url": "https://geochem.nrcan.gc.ca/cdogs/content/main/home_en.htm",
+      "retrievalStatus": "planned",
+      "limitations": "No live survey retrieval in this demo."
+    },
+    {
+      "label": "Saskatchewan GeoAtlas",
+      "url": "https://gisappl.saskatchewan.ca/Html5Ext/index.html?viewer=GeoAtlas",
+      "retrievalStatus": "planned",
+      "limitations": "No live GeoAtlas layer query in this demo."
+    }
+  ]
+}

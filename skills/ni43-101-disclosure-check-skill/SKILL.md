@@ -27,6 +27,7 @@ Review draft technical language, research briefs, or report summaries for termin
 6. Flag unsupported economic language, such as guaranteed value, mineable, profitable, or reserve-like language without support.
 7. Flag gaps in QA/QC, metallurgy, mining method, infrastructure, environmental baseline, permitting, Indigenous consultation, and data verification.
 8. Suggest safer wording direction, not final legal text.
+9. If the user asks for technical-report figures, disclosure caveat diagrams, evidence matrices, investor-facing visuals, or manuscript figure packages, route to `academic-figure-package-skill` and require QP/legal/investment caveats in captions.
 
 ## Output Contract
 
@@ -39,6 +40,7 @@ Return a concise Markdown checklist with:
 - Safer wording direction.
 - Required professional review.
 - Overall limitations.
+- Optional figure caveats for technical-report or investor-facing visuals.
 
 ## Evidence And Provenance Rules
 

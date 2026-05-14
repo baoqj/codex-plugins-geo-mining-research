@@ -1,0 +1,56 @@
+{
+  "geomine_thmc": {
+    "command": "uv",
+    "args": [
+      "--directory",
+      "./mcp/geomine-thmc-server",
+      "run",
+      "geomine-thmc-mcp"
+    ],
+    "env": {
+      "GEOMINE_THMC_MODE": "mock"
+    },
+    "env_vars": [
+      "OPENMINE_API_BASE_URL",
+      "OPENMINE_API_TOKEN",
+      "OPENMINE_PROJECT_DB_URL",
+      "OPENMINE_POSTGIS_DSN",
+      "OPENMINE_R2_ENDPOINT",
+      "OPENMINE_R2_ACCESS_KEY_ID",
+      "OPENMINE_R2_SECRET_ACCESS_KEY",
+      "OPENMINE_R2_BUCKET",
+      "PHREEQC_SERVICE_URL",
+      "PHREEQC_SERVICE_TOKEN",
+      "THMC_COMPUTE_API_URL",
+      "THMC_COMPUTE_API_TOKEN",
+      "GEOMINE_THMC_CACHE_DIR",
+      "GEOMINE_THMC_MODE"
+    ],
+    "startup_timeout_sec": 45,
+    "tool_timeout_sec": 300,
+    "enabled": false,
+    "required": false,
+    "enabled_tools": [
+      "list_openmine_projects",
+      "get_openmine_project",
+      "get_project_aoi",
+      "query_water_chemistry_samples",
+      "query_lithology_units",
+      "query_mineral_assemblages",
+      "get_thmc_mesh_catalog",
+      "fetch_mesh_or_parameter_field",
+      "build_phreeqc_input",
+      "run_phreeqc_job",
+      "submit_ogs_job",
+      "submit_pflotran_job",
+      "get_compute_job_status",
+      "fetch_compute_job_results",
+      "save_thmc_model_version",
+      "get_thmc_model_version",
+      "list_thmc_model_versions",
+      "save_thmc_run_record",
+      "get_thmc_run_record",
+      "list_thmc_run_records"
+    ]
+  }
+}

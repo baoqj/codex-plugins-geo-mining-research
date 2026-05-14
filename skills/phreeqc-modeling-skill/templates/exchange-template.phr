@@ -1,0 +1,6 @@
+EXCHANGE <exchange_number>
+  # Use only with measured or documented exchange capacity.
+  <exchange_site_name> <exchange_capacity_equivalents>
+  -equilibrate <solution_number>
+
+END

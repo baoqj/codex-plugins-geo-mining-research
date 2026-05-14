@@ -19,12 +19,10 @@
     "research-router",
     "mcp"
   ],
-  "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "GeoMine Research",
-    "shortDescription": "GIS + geochemistry + mineral exploration research with MCP data tools.",
-    "longDescription": "Routes open-ended geoscience and mining questions to specialized evidence lanes, normalizes AOIs, commodities, deposit models, jurisdictions, datasets, companies, claims, and technical-disclosure entities, and produces structured research briefs, evidence matrices, data gaps, and machine-readable summaries.",
+    "shortDescription": "GIS + geochemistry + mineral exploration research helpers.",
+    "longDescription": "Provides repository-local GeoMine Research helpers, references, deterministic tool code, and future MCP/skill templates. Skills and MCP servers are intentionally not auto-registered by default to avoid startup errors from incomplete local installations.",
     "developerName": "OpenMine.VIP",
     "category": "Research",
     "capabilities": [

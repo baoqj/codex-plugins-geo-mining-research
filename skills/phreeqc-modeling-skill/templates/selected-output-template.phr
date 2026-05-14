@@ -1,0 +1,22 @@
+SELECTED_OUTPUT <selected_output_number>
+  -file <selected_output_file.sel>
+  -reset false
+  -simulation true
+  -state true
+  -solution true
+  -distance true
+  -time true
+  -step true
+  -pH true
+  -pe true
+  -temperature true
+  -alkalinity true
+  -ionic_strength true
+  -charge_balance true
+  -percent_error true
+  -water true
+  -totals <element_list>
+  -saturation_indices <mineral_list>
+  -molalities <species_list>
+
+END

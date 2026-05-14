@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmine.vip/schemas/geomine/academic-paper-input.schema.json",
+  "title": "GeoMine Academic Paper Input",
+  "type": "object",
+  "required": ["research_topic"],
+  "additionalProperties": false,
+  "properties": {
+    "research_topic": {
+      "type": "string",
+      "minLength": 3
+    },
+    "domain": {
+      "type": "string",
+      "default": "geoscience"
+    },
+    "target_paper_type": {
+      "type": "string",
+      "enum": ["research_article", "review_article", "perspective", "methodology_paper", "feasibility_study", "proposal_draft"],
+      "default": "research_article"
+    },
+    "disciplinary_lenses": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": []
+    },
+    "research_questions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": []
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": []
+    },
+    "required_sections": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": ["Abstract", "Keywords", "Introduction", "Research Questions and Hypotheses", "Literature Review", "Theoretical Framework", "Methods", "Equation Registry", "Evidence Matrix", "Discussion", "Limitations", "Conclusion", "References"]
+    },
+    "citation_style": {
+      "type": "string",
+      "enum": ["APA", "ACS", "Nature", "Elsevier", "IEEE"],
+      "default": "ACS"
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": ["exploratory", "literature_grounded", "data_supported", "model_supported", "publication_ready"],
+      "default": "literature_grounded"
+    },
+    "include_equations": {
+      "type": "boolean",
+      "default": true
+    },
+    "include_tables": {
+      "type": "boolean",
+      "default": true
+    },
+    "include_limitations": {
+      "type": "boolean",
+      "default": true
+    },
+    "include_industrial_feasibility": {
+      "type": "boolean",
+      "default": false
+    },
+    "language": {
+      "type": "string",
+      "enum": ["zh", "en", "bilingual"],
+      "default": "zh"
+    },
+    "output_format": {
+      "type": "string",
+      "enum": ["markdown", "latex", "docx_ready_markdown"],
+      "default": "markdown"
+    }
+  }
+}

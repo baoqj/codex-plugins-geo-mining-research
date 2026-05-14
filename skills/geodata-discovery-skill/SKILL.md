@@ -27,6 +27,7 @@ Map a normalized AOI and research question to relevant public geoscience and min
 6. For Ontario GIS and occurrences, include OGSEarth and Ontario Mineral Inventory.
 7. Add USGS and EarthChem only as extension sources or for cross-border comparison.
 8. If helpful, use `scripts/geomine/data_sources.py` for static source filtering.
+9. If the user asks for study-area maps, geological setting maps, sampling maps, claim maps, GIS figures, captions, or figure packages, route to `academic-figure-package-skill` after required CRS, source, scale, license, and spatial-precision metadata are identified.
 
 ## Output Contract
 
@@ -41,6 +42,7 @@ Return a Markdown source plan with:
 - Known limitations.
 - Recommended next retrieval step.
 - Whether the source was actually queried in this run.
+- Recommended map figures when the user is preparing a paper or report.
 
 ## Evidence And Provenance Rules
 
